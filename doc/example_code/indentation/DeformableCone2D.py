@@ -1,7 +1,8 @@
 from abapy.indentation import DeformableCone2D
 from matplotlib import pyplot as plt
-c = DeformableCone2D(Na =8, Nb = 8, Ns = 1)
+c = DeformableCone2D(Na=8, Nb=8, Ns=1)
 f = open('DeformableCone2D.inp', 'w')
+print(c.dump2inp())
 f.write(c.dump2inp())
 f.close()
 x,y,z = c.mesh.get_edges()

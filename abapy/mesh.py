@@ -590,7 +590,7 @@ class Nodes(object):
     .. plot:: example_code/mesh/Nodes-eval_function.py
        :include-source:
     '''
-    from postproc import FieldOutput 
+    from abapy.postproc import FieldOutput 
     from numpy import array as n_array
     from numpy import float32, float64, uint32, uint64
     dtf, dti = self.dtf, self.dti
@@ -617,7 +617,7 @@ class Nodes(object):
     .. plot:: example_code/mesh/Nodes-eval_vectorFunction.py
        :include-source:
     '''
-    from postproc import VectorFieldOutput, FieldOutput
+    from abapy.postproc import VectorFieldOutput, FieldOutput
     from numpy import array as n_array
     from numpy import float32, float64, uint32, uint64
     dtf, dti = self.dtf, self.dti
@@ -647,7 +647,7 @@ class Nodes(object):
     .. plot:: example_code/mesh/Nodes-eval_tensorFunction.py
        :include-source:
     '''
-    from postproc import TensorFieldOutput, FieldOutput
+    from abapy.postproc import TensorFieldOutput, FieldOutput
     from numpy import array as n_array
     from numpy import float32, float64, uint32, uint64
     dtf, dti = self.dtf, self.dti
@@ -679,7 +679,7 @@ class Nodes(object):
     .. plot:: example_code/mesh/Nodes-apply_displacement.py
        :include-source:
     '''
-    from postproc import VectorFieldOutput
+    from abapy.postproc import VectorFieldOutput
     from copy import deepcopy
     from numpy import array as n_array
     from array import array as a_array
@@ -1170,7 +1170,7 @@ class Mesh(object):
     if type(label) is not str: raise Exception('set names must be strings.')
     label2 = label.lower()
     if label2 not in self.sets: self.sets[label2] = array(self.dti,[])
-    if type(elements) == int or type(elements) == long: elements = [elements]
+    if type(elements) == int: elements = [elements]
     if len(elements) == 0: return
     for i in elements:
       if i in self.labels: 
@@ -1890,7 +1890,7 @@ class Mesh(object):
       f.close()
       
       
-  def dump2triplot(self, use_3D = False):
+  def dump2triplot(self, use_3D=False):
     '''
     Allows any 2D mesh to be triangulized and formated in a suitable way to be used by triplot, tricontour and tricontourf in matplotlib.pyplot. This is the best way to produce clean 2D plots of 2D meshs. Returns 4 arrays/lists: x, y and z coordinates of nodes and triangles connectivity. It can be directly used in matplotlib.pyplot using:
     

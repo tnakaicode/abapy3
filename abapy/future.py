@@ -205,7 +205,7 @@ class Element(object):
       return [self]
     else:
       return self.simplex_decomposition()              
-  
+
   def node_set_to_surface(self, nodesetlabel, surfacelabel):
     nodelabels = set([k for k in self.nodes.keys() if label in self.nodes[k].sets])
     for element in self.elements.values:

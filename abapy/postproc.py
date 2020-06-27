@@ -1562,11 +1562,12 @@ class FieldOutput(object):
   '''
   def __init__(self,position='node',data=None,labels=None,dti='I',dtf='f'):
     from array import array
+    import numpy as np
     self.dti, self.dtf = dti, dtf
     self.position = position
     self.data = array(dtf,[])
     self.labels = array(dti,[])
-    if data != None:
+    if np.any(data) != None:
       if labels == None:
         labels = range(1,len(data)+1)
       else:

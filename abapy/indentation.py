@@ -173,7 +173,7 @@ def IndentationMesh(Na = 8, Nb = 8, Ns = 4, Nf = 2 , l =1., name = 'CAX4', dtf =
 
   def Transition(N = 4, l1 = 1., l2 = 1., name = 'CAX4', crit_distance = 1.e-6 ):
     from copy import deepcopy
-    N = N / 4
+    N = int(N / 4)
     m = UnitTransition(name)
     m0 = deepcopy(m)
     if N > 1:

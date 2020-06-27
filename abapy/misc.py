@@ -4,16 +4,16 @@ Miscellaneous
 '''
 
 import pickle
-import copy_reg
+import copyreg
 import array
 
 
 
-def array_unpickler(data):
-  return array.array(data[0], data[1:])
-def array_pickler(arr):
-    return array_unpickler, ("%s%s" % (arr.typecode, arr.tostring()),)
-copy_reg.pickle(array.ArrayType, array_pickler, array_unpickler)
+#def array_unpickler(data):
+#  return array.array(data[0], data[1:])
+#def array_pickler(arr):
+#    return array_unpickler, ("%s%s" % (arr.typecode, arr.tostring()),)
+#copyreg.pickle(array.ArrayType, array_pickler, array_unpickler)
 
 
 def load(name):
