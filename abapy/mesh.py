@@ -1890,7 +1890,7 @@ class Mesh(object):
       f.close()
       
       
-  def dump2triplot(self, use_3D=False):
+  def dump2triplot(self, use_3d=False):
     '''
     Allows any 2D mesh to be triangulized and formated in a suitable way to be used by triplot, tricontour and tricontourf in matplotlib.pyplot. This is the best way to produce clean 2D plots of 2D meshs. Returns 4 arrays/lists: x, y and z coordinates of nodes and triangles connectivity. It can be directly used in matplotlib.pyplot using:
     
