@@ -34,13 +34,13 @@ frames     = 50    # Number frames per step
 ey  = [0.01, 0.015,0.02, 0.025,0.03, 0.035,0.04, 0.045, 0.05] # Yield strain
 beta = [0., 5., 10., 15., 20., 25., 30.]
 
-print 'LOADING DRUCKER PRAGER SIMULATIONS'
+print ('LOADING DRUCKER PRAGER SIMULATIONS')
 
-for i in xrange(len(ey)):
-  print '* epsilon_y = ', ey[i]
-  for j in xrange(len(beta)):
-    print 'beta= ', beta[j]
-    print '* Conical indenter'
+for i in range(len(ey)):
+  print ('* epsilon_y = ', ey[i])
+  for j in range(len(beta)):
+    print ('beta= ', beta[j])
+    print ('* Conical indenter')
     simu = Simulation( 
       rigid_indenter= True, 
       indenter_pyramid = True,
@@ -99,13 +99,13 @@ ey = [0.001]
 #n = [0., .1, .2, .3, .4]
 n = [.3, .4]
 
-print 'LOADING HOLLOMON SIMULATIONS'
+print ('LOADING HOLLOMON SIMULATIONS')
 
-for i in xrange(len(ey)):
-  print '* epsilon_y = ', ey[i]
-  for j in xrange(len(n)):
-    print '* n = ', n[j]  
-    print '* Conical indenter'
+for i in range(len(ey)):
+  print ('* epsilon_y = ', ey[i])
+  for j in range(len(n)):
+    print ('* n = ', n[j])  
+    print ('* Conical indenter')
     simu = Simulation( 
       rigid_indenter= True, 
       indenter_pyramid = True,

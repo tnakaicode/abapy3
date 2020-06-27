@@ -583,7 +583,7 @@ dump(data, file_name+'.pckl')"""
     import numpy as np
     from abapy.postproc import HistoryOutput
     contact_step = self.contact_data[1] # we only look at the loading 1 here
-    ca= np.array([contact_step[i].contact_area() for i in xrange(len(contact_step))])
+    ca= np.array([contact_step[i].contact_area() for i in range(len(contact_step))])
     disp = np.array(self.disp_hist[1].data)
     ca = ca / (disp**2)
     contact_area = ca.mean()
@@ -721,7 +721,7 @@ dump(data, file_name+'.pckl')"""
   
   
   def run(self, work_dir = 'workdir/', abqlauncher = '/opt/Abaqus/6.9/Commands/abaqus'):
-    print '# Running {0}: id={1}, frames = {2}'.format(self.__class__.__name__, self.id, self.frames)
+    print ('# Running {0}: id={1}, frames = {2}'.format(self.__class__.__name__, self.id, self.frames))
     self.preprocess()
     from abapy.indentation import Manager
     import numpy as np
@@ -759,7 +759,7 @@ dump(data, file_name+'.pckl')"""
     #m.erase_files()          # Workdir cleaning
     #---------------------------------------
     if data['completed']:
-      print '# Simulation completed.'
+      print ('# Simulation completed.')
       # Storing raw data
       self.completed = True
       sweep_factor = 1. # This factor aims to modify values that are affected by the fact that only a portion of the problem is solved due to symmetries.
@@ -788,7 +788,7 @@ dump(data, file_name+'.pckl')"""
       self.Unloading_fit()
     #---------------------------------------
     else:
-      print '# Simulation not completed.'
+      print ('# Simulation not completed.')
 #----------------------------------------------------------------------------------------------------------------      
 
 
@@ -814,12 +814,12 @@ class Database_Manager:
     Args:
     * simulation: Simulation class instance
     '''
-    if isinstance(simulation, self.cls) == False: raise Exception, 'simulation must be Simulation instance'
+    if isinstance(simulation, self.cls) == False: raise Exception('simulation must be Simulation instance')
     try:
       self.session.add(simulation)
       self.session.commit()
     except: 
-      print 'simulation already exists or has not been declared corectly, nothing changed' 
+      print ('simulation already exists or has not been declared corectly, nothing changed') 
       self.session.rollback()
       
   def get_next(self):
@@ -857,10 +857,10 @@ class Database_Manager:
         if simu.completed: break
         simu.frames = int(simu.frames * 1.5)
         self.session.commit()
-        print '# Number of frames changed to {0}.'.format(simu.frames)
+        print ('# Number of frames changed to {0}.'.format(simu.frames))
       self.session.commit()
     else:
-      print '# No more simulations to run'
+      print ('# No more simulations to run')
   
   def run_all(self):
     '''
@@ -869,9 +869,9 @@ class Database_Manager:
     while True:
       left_sims = self.session.query(self.cls).filter(self.cls.completed == False).count()
       if left_sims == 0: 
-        print '# All simulations have been run.'
+        print ('# All simulations have been run.')
         break
-      print '# {0} simulations left to run.'.format(left_sims)
+      print ('# {0} simulations left to run.'.format(left_sims))
       self.run_next()
   
   def query(self):

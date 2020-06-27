@@ -8,7 +8,7 @@ f.close()
 x,y,z = c.mesh.get_edges()
 # Adding some 3D "home made" perspective:
 zx, zy = .3, .3
-for i in xrange(len(x)):
+for i in range(len(x)):
   if x[i] != None:
     x[i] += zx * z[i]
     y[i] += zy * z[i]

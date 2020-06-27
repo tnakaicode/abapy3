@@ -94,7 +94,7 @@ class Element(object):
     self.master = master
     self.sets = set(sets)
     ns = self.ns()
-    self.surfaces = [set() for i in xrange(ns)]
+    self.surfaces = [set() for i in range(ns)]
     if surfaces != None:
       for k in surfaces.keys():
         self.surfaces[k].add( surfaces[k] ) 
@@ -175,7 +175,7 @@ class Element(object):
         points = [self.master.nodes[l].coords for l in conn]
         tetras = Delaunay(points).simplices
         tetras2 = []
-        for i in xrange(len(tetras)): 
+        for i in range(len(tetras)): 
           if tetra_volume([points[j] for j in tetras[i]]) < 0.:
             t = np.array([tetras[i][j] for j in [1, 0, 2, 3]])
           else: 
@@ -209,7 +209,7 @@ class Element(object):
   def node_set_to_surface(self, nodesetlabel, surfacelabel):
     nodelabels = set([k for k in self.nodes.keys() if label in self.nodes[k].sets])
     for element in self.elements.values:
-      for i in xrange(self.ns()):
+      for i in range(self.ns()):
         if self._space == 3: surfconn = self.conn[self._faces_conn[i]]
         # TO be completed
         if nodelabels.issuperset(surfconn):
@@ -430,10 +430,10 @@ class Mesh(object):
   def add_eset(self, *args, **kwargs):
     self._add_set(kind = "eset", *args, **kwargs)
   """
-  def export(path):
+  def export(self, path):
     return  
   
-  def load(path):
+  def load(self, path):
     return
   
   def extrude(self, translation, layers):
@@ -442,14 +442,14 @@ class Mesh(object):
     # Nodes:
     node_offset = max(self.nodes.keys())
     for l, n in self.nodes.iteritems():
-      for j in xrange(layers+1):
+      for j in range(layers+1):
         newnode = Node(coords = n.coords + translation * float(j) / layers,                 
                        sets = n.sets)
         newmesh.nodes[l + j * node_offset] = newnode
     # Elements:
     element_offset = max(self.elements.keys())
     for l, e in self.elements.iteritems():
-      for layer in xrange(layers):
+      for layer in range(layers):
         newelement = e.extrude(offset = node_offset, layer = layer)
         if newelement != None:
           newmesh.elements[l + layer * element_offset] = newelement 
@@ -642,7 +642,7 @@ def writeInp(mesh, mapping, path = None):
   def exportset(s, d):
     out = ""
     labels = [str(k) for k,v in d.iteritems() if s in v.sets]
-    for i in xrange(len(labels)):
+    for i in range(len(labels)):
       out += labels[i]
       if (i+1)%10 != 0:
         out += ", "

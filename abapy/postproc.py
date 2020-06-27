@@ -21,7 +21,7 @@ def GetMesh(odb,instance,dti='I'):
   .. literalinclude:: example_code/postproc/GetMesh.py
   
   '''
-  from mesh import Mesh, Nodes
+  from abapy.mesh import Mesh, Nodes
   from array import array
   inst = odb.rootAssembly.instances[instance]
   # Managing precision: float32 or float64
@@ -215,11 +215,11 @@ class HistoryOutput(object):
     from array import array
     time_size = [len(t) for t in time]
     data_size = [len(d) for d in data]
-    if data_size != time_size: raise Exception, 'time and data must have the same structure.'
+    if data_size != time_size: raise Exception('time and data must have the same structure.')
     self.time = []
     self.data = []
     self.dtf = dtf
-    for i in xrange(len(time)): 
+    for i in range(len(time)): 
       time_step = time[i]
       data_step = data[i]
       self.add_step(time_step, data_step)
@@ -263,7 +263,7 @@ class HistoryOutput(object):
 
     '''
     time0, data0 = [],[]
-    for i in xrange(len(self.time)):
+    for i in range(len(self.time)):
       time0 += self.time[i].tolist()+[None]
       data0 += self.data[i].tolist()+[None]
     return time0, data0
@@ -289,7 +289,7 @@ class HistoryOutput(object):
     from array import array
     dtf = self.dtf
     time0, data0 = array(dtf,[]),array(dtf,[])
-    for i in xrange(len(self.time)):
+    for i in range(len(self.time)):
       time0 += self.time[i]
       data0 += self.data[i]
     return time0, data0
@@ -310,7 +310,7 @@ class HistoryOutput(object):
       if dtf == 'd': n_dtf = float64
       n_other = [n_array(o, dtype = n_dtf) for o in other.data ]
       n_self = [n_array(s, dtype = n_dtf) for s in self.data ]
-    if type(other) in [float, long, int]:
+    if type(other) in [float, int]:
       other = float(other)
       dtf = self.dtf
       if dtf == 'f': n_dtf = float32
@@ -328,7 +328,7 @@ class HistoryOutput(object):
       
   def __add__(self,other):
     time, n_self, n_other, dtf = self._PreProcess(other)
-    n_out = [ n_self[i] + n_other[i] for i in xrange(len(n_self)) ] 
+    n_out = [ n_self[i] + n_other[i] for i in range(len(n_self)) ] 
     out = self._PostProcess(time, n_out, dtf)
     return out
     
@@ -336,7 +336,7 @@ class HistoryOutput(object):
   
   def __mul__(self,other):
     time, n_self, n_other, dtf = self._PreProcess(other)
-    n_out = [ n_self[i] * n_other[i] for i in xrange(len(n_self)) ] 
+    n_out = [ n_self[i] * n_other[i] for i in range(len(n_self)) ] 
     out = self._PostProcess(time, n_out, dtf)
     return out
    
@@ -350,7 +350,7 @@ class HistoryOutput(object):
   
   def __div__(self,other):
     time, n_self, n_other, dtf = self._PreProcess(other)
-    n_out = [ n_self[i] / n_other[i] for i in xrange(len(n_self)) ] 
+    n_out = [ n_self[i] / n_other[i] for i in range(len(n_self)) ] 
     out = self._PostProcess(time, n_out, dtf)
     return out
   
@@ -359,7 +359,7 @@ class HistoryOutput(object):
   
   def __pow__(self,other):
     time, n_self, n_other, dtf = self._PreProcess(other)
-    n_out = [ n_self[i] ** n_other[i] for i in xrange(len(n_self)) ] 
+    n_out = [ n_self[i] ** n_other[i] for i in range(len(n_self)) ] 
     out = self._PostProcess(time, n_out, dtf)
     return out
   
@@ -368,7 +368,7 @@ class HistoryOutput(object):
     
   def __abs__(self):
     time, n_self, n_other, dtf = self._PreProcess(1)
-    n_out = [ abs(n_self[i]) for i in xrange(len(n_self)) ] 
+    n_out = [ abs(n_self[i]) for i in range(len(n_self)) ] 
     out = self._PostProcess(time, n_out, dtf)
     return out
     
@@ -376,7 +376,7 @@ class HistoryOutput(object):
     from array import array
     from copy import deepcopy
     labs = []
-    if type(s) in [int, long]:
+    if type(s) in [int]:
       labs = [s]
     if type(s) is slice:
       start = s.start
@@ -386,7 +386,7 @@ class HistoryOutput(object):
       labs = range(start,stop,step)
     if type(s) in [tuple,list, array]:  
       for a in s:
-        if type(a) in [int, long]:labs.append(a)
+        if type(a) in [int]:labs.append(a)
     dtf = self.dtf
     time = self.time
     data = self.data
@@ -403,11 +403,11 @@ class HistoryOutput(object):
     out = 'History output instance: {0} steps\n'.format(nstep)
     pattern0 = 'Step {0}: {1} points\nTime\tData\n'
     pattern1 = '{0}\t{1}\n'
-    for s in xrange(nstep):
+    for s in range(nstep):
       time_step, data_step = time[s], data[s]
       npoints = len(time_step)
       out += pattern0.format(s, npoints)
-      for p in xrange(npoints):
+      for p in range(npoints):
         out += pattern1.format(time_step[p], data_step[p])
     return out    
   
@@ -433,7 +433,7 @@ class HistoryOutput(object):
     >>> from math import sin, pi
     >>> N = 100
     >>> hist = HistoryOutput()
-    >>> time = [pi / 2 * float(i)/N for i in xrange(N+1)]
+    >>> time = [pi / 2 * float(i)/N for i in range(N+1)]
     >>> data = [sin(t) for t in time]
     >>> hist.add_step(time_step = time, data_step = data)
     >>> time2 = [10., 11.]
@@ -449,7 +449,7 @@ class HistoryOutput(object):
 
     '''
     out, dt = 0., 0.
-    for i in xrange(len(self.time)):
+    for i in range(len(self.time)):
       dt += self[i].duration()
       out +=  self[i].integral(method = method)
     return out/dt
@@ -519,7 +519,7 @@ class HistoryOutput(object):
     2.0
     >>> N = 10
     >>> from math import sin, pi
-    >>> time = [pi / 2 * float(i)/N for i in xrange(N+1)]
+    >>> time = [pi / 2 * float(i)/N for i in range(N+1)]
     >>> data = [sin(t) for t in time]
     >>> hist = HistoryOutput()
     >>> hist.add_step(time_step = time, data_step = data)
@@ -542,12 +542,12 @@ class HistoryOutput(object):
     if dtf == 'f': ndtf = float32
     if dtf == 'd': ndtf = float64
     if method not in ['trapz', 'simps']:
-      raise Exception, 'method must be trapz or simps'
+      raise Exception('method must be trapz or simps')
     if method == 'trapz': rule = trapz
     if method == 'simps': rule = simps
     time, data = self.time, self.data
     out = 0.
-    for i in xrange(len(time)):
+    for i in range(len(time)):
       t = array(time[i], dtype = ndtf)
       d = array(data[i], dtype = ndtf)
       out += rule(x=t, y=d)
@@ -685,7 +685,7 @@ def GetFieldOutput(odb, step, frame, instance, position, field, subField=None, l
     if Values.type == SCALAR:
       scalarValues = Values
     else:
-      raise Exception, 'field output is not scalar, maybe because subfield is None.' 
+      raise Exception('field output is not scalar, maybe because subfield is None.' )
   if subField != None: 
     fieldInvariants = abqFieldOutput.validInvariants # Warning: using getsubset or getscalarfield can lead abaqus to give wrong field invariants or field components. This bug bug seems to be avoided by requestions invariants and components before subseting or scalaring the field.
     fieldComponents = abqFieldOutput.componentLabels  
@@ -693,8 +693,8 @@ def GetFieldOutput(odb, step, frame, instance, position, field, subField=None, l
       if subField.lower() == key.lower(): scalarValues = Values.getScalarField(componentLabel = key)
     for key in fieldInvariants:
       if subField.lower() == str(key).lower():  scalarValues = Values.getScalarField(invariant = key)
-  count = array(dti,[0 for i in xrange(Nitems)])
-  temp =  array(dtf,[0. for i in xrange(Nitems)])
+  count = array(dti,[0 for i in range(Nitems)])
+  temp =  array(dtf,[0. for i in range(Nitems)])
   for v in scalarValues.values:
     i = v.__getattribute__(positionLabel)
     if i in labels:
@@ -702,12 +702,12 @@ def GetFieldOutput(odb, step, frame, instance, position, field, subField=None, l
       count[l] += 1
       temp[l] += v.data
   out_data, out_labels = array(dtf,[]) , array(dti, [])  
-  for i in xrange(Nitems):
+  for i in range(Nitems):
     if count[i] != 0:
       out_data.append(temp[i]/count[i] )
       out_labels.append(labels[i])
     
-  #data = array(dtf,[temp[i]/count[i] for i in xrange(Nitems)])
+  #data = array(dtf,[temp[i]/count[i] for i in range(Nitems)])
   out = FieldOutput(position = position, data =out_data, labels = out_labels, dtf = dtf )
   return out
 
@@ -746,7 +746,7 @@ def GetVectorFieldOutput(odb, step, frame, instance, position, field, labels=Non
   comp_number = len(components)
   # Now let's find the data we need
   Field = []
-  for ncomp in xrange(comp_number):
+  for ncomp in range(comp_number):
     Field.append( GetFieldOutput(odb, step = step, frame = frame, instance = instance, position =  position , field = field, subField= components[ncomp], labels = labels, dti = dti )  )
   if len(Field) == 2:
     return VectorFieldOutput(position = position, data1 = Field[0],  data2 = Field[1])  
@@ -790,7 +790,7 @@ def GetTensorFieldOutput(odb, step, frame, instance, position, field, labels=Non
   comp_number = len(components)
   # Now let's find the data we need
   Field = []
-  for ncomp in xrange(comp_number):
+  for ncomp in range(comp_number):
     Field.append( GetFieldOutput(odb, step = step, frame = frame, instance = instance, position =  position , field = field, subField= components[ncomp] , labels = labels, dti = dti )  )
   if len(Field) == 4:
     return TensorFieldOutput(position = position, data11 = Field[0], data22 = Field[1], data33 = Field[2], data12 = Field[3])  
@@ -944,7 +944,7 @@ def MakeFieldOutputReport(odb, instance, step, frame, report_name, original_posi
     if type(sub_field) == int:
       sub_field_type = COMPONENT
       sub_field_flag = prefix+str(sub_field)
-      print sub_field_flag 
+      print (sub_field_flag )
     if type(sub_field) == str:
       sub_field_type = INVARIANT
       sub_field_flag = sub_field
@@ -956,9 +956,9 @@ def MakeFieldOutputReport(odb, instance, step, frame, report_name, original_posi
       leaf = dgo.LeafFromNodeSets(instance + '.' + sub_set)
     if sub_set_type == 'element':
       leaf = dgo.LeafFromElementSets(instance + '.' + sub_set)
-  print variable
+  print (variable)
   if frame < 0:
-    frames_list = xrange(len(odb.steps[ odb.steps.keys()[step] ].frames))
+    frames_list = range(len(odb.steps[ odb.steps.keys()[step] ].frames))
     frame = frames_list[frame]
   session.viewports['Viewport: 1'].setValues(displayedObject=odb)
   dg = session.viewports['Viewport: 1'].odbDisplay.displayGroup
@@ -1011,7 +1011,7 @@ def ReadFieldOutputReport(report_name, position = 'node', dti = 'I', dtf = 'f'):
   labels = array( dti, [] )
   data = array( dtf , [] )
   counter = array( dti, [] )
-  for i in xrange(len(lines)):
+  for i in range(len(lines)):
     line = lines[i]
     words = line.split()
     try:
@@ -1028,7 +1028,7 @@ def ReadFieldOutputReport(report_name, position = 'node', dti = 'I', dtf = 'f'):
         pos = labels.index(label)
         counter[pos] += 1
         data[pos] += value
-  for i in xrange(len(labels)):
+  for i in range(len(labels)):
     data[i] = data[i]/counter[i]
   return FieldOutput(labels = labels, data = data, position = position, dti = dti, dtf = dtf)      
 """
@@ -1570,15 +1570,15 @@ class FieldOutput(object):
       if labels == None:
         labels = range(1,len(data)+1)
       else:
-        if len(labels) != len(data) : raise Exception, 'labels and data must have the same length'
-        if min(labels) < 1: raise Exception, 'labels must be int > 0'
+        if len(labels) != len(data) : raise Exception('labels and data must have the same length')
+        if min(labels) < 1: raise Exception('labels must be int > 0')
         zipped = zip(labels,data)
         labels, data = zip(*sorted(zipped))
       self.data = array(dtf,data)
       self.labels = array(dti,labels) 
       '''
       if len(data) == len(labels):
-        for i in xrange(len(labels)):
+        for i in range(len(labels)):
           self.add_data(labels[i],data[i])
       '''
       
@@ -1608,7 +1608,7 @@ class FieldOutput(object):
     from copy import deepcopy
     from array import array
     if label in self.labels:
-      print 'data already exists at this node'
+      print ('data already exists at this node')
       return 
     else:
       self_data, self_labels = self.data, self.labels
@@ -1659,7 +1659,7 @@ class FieldOutput(object):
     from copy import deepcopy
     from numpy import nan
     labs = []
-    if type(s) in [int, long]:
+    if type(s) in [int]:
       labs = [s]
     if type(s) is slice:
       start = s.start
@@ -1669,7 +1669,7 @@ class FieldOutput(object):
       labs = range(start,stop,step)
     if type(s) in [tuple,list, array]:  
       for a in s:
-        if type(a) in [int, long]:labs.append(a)
+        if type(a) in [int]:labs.append(a)
        
     labels = self.labels
     dtf = self.dtf
@@ -1689,7 +1689,7 @@ class FieldOutput(object):
     labels, data, position = self.labels, self.data, self.position
     out = 'FieldOutput instance\nPosition = {0}\nLabel\tData\n'.format(position)
     pattern = '{0}\t{1}\n'
-    for i in xrange(len(labels)): out += pattern.format(labels[i], data[i])
+    for i in range(len(labels)): out += pattern.format(labels[i], data[i])
     return out
   
   def get_data(self,label):
@@ -1703,13 +1703,13 @@ class FieldOutput(object):
     .. note:: Requesting data at a label that does not exist in the instance will just lead in a warning but if label is negative or is not int, then an Exception will be raised.
     '''
      
-    if type(label) not in [int, long] or label <= 0:
-      raise Exception, 'label must be int > 0, got {0}'.format(label)  
+    if type(label) not in [int] or label <= 0:
+      raise Exception('label must be int > 0, got {0}'.format(label))
     if label in self.labels:
       i = self.labels.index(label)
       return self.data[i] 
     else:
-      print 'Info: requesting data at non existant location, returning None'    
+      print ('Info: requesting data at non existant location, returning None')    
   
   def _PreProcess(self,other=None):
     '''
@@ -1723,8 +1723,8 @@ class FieldOutput(object):
     from numpy import float32, float64, uint16, uint32
     if other == None : other = 1. 
     if isinstance(other,FieldOutput):
-      if self.labels != other.labels: raise Exception, 'operands labels must be identicals.'
-      if self.position != other.position: raise Exception, 'operands position must be identicals.'
+      if self.labels != other.labels: raise Exception('operands labels must be identicals.')
+      if self.position != other.position: raise Exception('operands position must be identicals.')
       if self.dti == 'H' and other.dti == 'H':
         dti = 'H'
       else:
@@ -1735,7 +1735,7 @@ class FieldOutput(object):
         dtf = 'f'
       out = FieldOutput(dti=dti, dtf=dtf, position=self.position)
       other_data = other.data
-    if type(other) in [float, int, long]:
+    if type(other) in [float, int]:
       dti, dtf = self.dti, self.dtf
       out = FieldOutput(position = self.position, dti = dti, dtf = dtf)
       other_data = float(other)
@@ -1758,7 +1758,7 @@ class FieldOutput(object):
     return out
   
   def __add__(self,other):
-    if (type(other) in [int, float, long] or isinstance(other, FieldOutput)) == False:
+    if (type(other) in [int, float] or isinstance(other, FieldOutput)) == False:
       return NotImplemented
     out, self_data, other_data = self._PreProcess(other)
     new_data = self_data + other_data 
@@ -1768,7 +1768,7 @@ class FieldOutput(object):
   __radd__ = __add__ 
   
   def __sub__(self,other):
-    if (type(other) in [int, float, long] or isinstance(other, FieldOutput)) == False:
+    if (type(other) in [int, float] or isinstance(other, FieldOutput)) == False:
       return NotImplemented
     out, self_data, other_data = self._PreProcess(other)
     new_data = self_data - other_data 
@@ -1776,17 +1776,17 @@ class FieldOutput(object):
     return out 
   
   def __rsub__(self,other):
-    if (type(other) in [int, float, long] or isinstance(other, FieldOutput)) == False:
+    if (type(other) in [int, float] or isinstance(other, FieldOutput)) == False:
       return NotImplemented
     return self * -1 + other 
   
   def __rsub__(self, other):
-    if (type(other) in [int, float, long] or isinstance(other, FieldOutput)) == False:
+    if (type(other) in [int, float] or isinstance(other, FieldOutput)) == False:
       return NotImplemented
     return -self + other 
     
   def __mul__(self,other):
-    if (type(other) in [int, float, long] or isinstance(other, FieldOutput)) == False:
+    if (type(other) in [int, float] or isinstance(other, FieldOutput)) == False:
       return NotImplemented
     out, self_data, other_data = self._PreProcess(other)
     new_data = self_data * other_data 
@@ -1796,7 +1796,7 @@ class FieldOutput(object):
   __rmul__ = __mul__  
     
   def __div__(self,other):
-    if (type(other) in [int, float, long] or isinstance(other, FieldOutput)) == False:
+    if (type(other) in [int, float] or isinstance(other, FieldOutput)) == False:
       return NotImplemented
     out, self_data, other_data = self._PreProcess(other)
     new_data = self_data / other_data 
@@ -1804,12 +1804,12 @@ class FieldOutput(object):
     return out 
   
   def __rdiv__(self, other):
-    if (type(other) in [int, float, long] or isinstance(other, FieldOutput)) == False:
+    if (type(other) in [int, float] or isinstance(other, FieldOutput)) == False:
       return NotImplemented
     return other *  self**-1  
     
   def __pow__(self,other):
-    if (type(other) in [int, float, long] or isinstance(other, FieldOutput)) == False:
+    if (type(other) in [int, float] or isinstance(other, FieldOutput)) == False:
       return NotImplemented
     out, self_data, other_data = self._PreProcess(other)
     new_data = self_data ** other_data 
@@ -1843,7 +1843,7 @@ def ZeroFieldOutput_like(fo):
   from array import array
   #from numpy import zeros_like # LC 12/04/2012: commented to use a non numpy method instead.
   if isinstance(fo,FieldOutput) == False:
-    raise Exception, 'input must be FieldOutput instance.'
+    raise Exception('input must be FieldOutput instance.')
   dti, dtf, position = fo.dti, fo.dtf, fo.position
   #data = array(dtf, zeros_like(fo.data).tolist()) # LC 12/04/2012: commented to use a non numpy method instead.
   data = array(dtf, [ 0. for i in fo.data])
@@ -1864,7 +1864,7 @@ def OneFieldOutput_like(fo):
   from array import array
   from numpy import ones_like
   if isinstance(fo,FieldOutput) == False:
-    raise Exception, 'input must be FieldOutput instance.'
+    raise Exception('input must be FieldOutput instance.')
   dti, dtf, position = fo.dti, fo.dtf, fo.position
   data = array(dtf, ones_like(fo.data).tolist())
   labels = copy(fo.labels)
@@ -1972,7 +1972,7 @@ class VectorFieldOutput:
     isNone = [data1 == None, data2 == None, data3 == None]
     for d in data:
       if (isinstance(d,FieldOutput) == False) and (d != None):
-        raise Exception, 'data1, data2 and data3 must be FieldOutput instances.'
+        raise Exception('data1, data2 and data3 must be FieldOutput instances.')
     
     # Remove comments when python 2.4 is not used anymore
     if isNone != [True, True, True]:
@@ -1982,18 +1982,18 @@ class VectorFieldOutput:
       labels = refData.labels
       useShortInts = True
       positions = []
-      for i in xrange(3):
+      for i in range(3):
         if data[i] == None: data[i] = ZeroFieldOutput_like(refData)
         if data[i].labels != labels:
-          raise Exception, 'data1, data2 and data3 must be fieldOutputs sharing the same labels.'    
+          raise Exception('data1, data2 and data3 must be fieldOutputs sharing the same labels.')    
         if data[i].dtf == 'd': self.dtf == 'd'
         if data[i].dti == 'I': useShortInts = False
         positions.append(data[i].position)
       if useShortInts: self.dti = 'H'            
       if len(set(positions)) > 1:
-        raise Exception, 'inputs must have the same position or be None.'
+        raise Exception('inputs must have the same position or be None.')
       '''
-      for i in xrange(len(labels)):
+      for i in range(len(labels)):
         l = labels[i]
         d1, d2, d3 = data[0].data[i] , data[1].data[i] , data[2].data[i]
         self.add_data(label = l, data1 = d1, data2 = d2, data3 = d3)
@@ -2024,7 +2024,7 @@ class VectorFieldOutput:
     import numpy as np
     #from copy import copy
     if number not in [1,2,3]:
-      raise Exception, 'number must be 1,2 or 3'  
+      raise Exception('number must be 1,2 or 3')  
     dti, dtf = self.dti, self.dtf
     position = self.position
     if number == 1: data = self.data1
@@ -2043,13 +2043,13 @@ class VectorFieldOutput:
     .. note:: Requesting data at a label that does not exist in the instance will just lead in a warning but if label is negative or is not int, then an Exception will be raised.
     '''
      
-    if type(label) not in [int, long] or label <= 0:
-      raise Exception, 'label must be int > 0, got {0}'.format(label)  
+    if type(label) not in [int] or label <= 0:
+      raise Exception('label must be int > 0, got {0}'.format(label) ) 
     if label in self.labels:
       i = self.labels.index(label)
       return self.data1[i], self.data2[i], self.data3[i] 
     else:
-      print 'Info: requesting data at non existant location, returning None'
+      print ('Info: requesting data at non existant location, returning None')
  
   def __repr__(self):
     l = len(self.labels)
@@ -2059,7 +2059,7 @@ class VectorFieldOutput:
     from copy import deepcopy
     from numpy import nan
     labs = []
-    if type(s) in [int, long]:
+    if type(s) in [int]:
       labs = [s]
     if type(s) is slice:
       start = s.start
@@ -2068,7 +2068,7 @@ class VectorFieldOutput:
       labs = range(start,stop,step)
     if type(s) in [tuple,list, array]:  
       for a in s:
-        if type(a) in [int, long]:labs.append(a)
+        if type(a) in [int]:labs.append(a)
        
     labels = self.labels
     dtf = self.dtf
@@ -2088,7 +2088,7 @@ class VectorFieldOutput:
     data1, data2, data3 =  self.data1, self.data2, self.data3
     out = 'VectorFieldOutput instance\nPosition = {0}\nLabel\tData1\tData2\tData3\n'.format(position)
     pattern = '{0}\t{1}\t{2}\t{3}\n'
-    for i in xrange(len(labels)): out += pattern.format(labels[i], data1[i], data2[i], data3[i])
+    for i in range(len(labels)): out += pattern.format(labels[i], data1[i], data2[i], data3[i])
     return out
   def add_data(self,label, data1=0., data2=0., data3=0.):
     '''
@@ -2132,7 +2132,7 @@ class VectorFieldOutput:
     from array import array
     dti,dtf = self.dti, self.dtf
     if label in self.labels:
-      print 'data already exists at this node'
+      print ('data already exists at this node')
       return 
     else:
       self_data1, self_data2, self_data3, self_labels = self.data1, self.data2, self.data3, self.labels
@@ -2177,7 +2177,7 @@ class VectorFieldOutput:
       out += "{0} {1}\n".format(dataType, ld)
     out += 'VECTORS {0} float\n'.format(name)
     pattern = '{0} {1} {2}\n'
-    for i in xrange(ld):
+    for i in range(ld):
       out += pattern.format(d1[i], d2[i], d3[i])
     return out
    
@@ -2187,7 +2187,7 @@ class VectorFieldOutput:
       o1, o2, o3 = other.get_coord(1), other.get_coord(2), other.get_coord(3)
     if isinstance(other, FieldOutput):
       o1, o2, o3 = other, other, other
-    if type(other) in [float, int, long]:
+    if type(other) in [float, int]:
       o = other * OneFieldOutput_like(self.get_coord(1))
       o1, o2, o3  = o, o, o
     return s1, s2, s3, o1, o2, o3
@@ -2197,7 +2197,7 @@ class VectorFieldOutput:
     return out
      
   def __add__(self, other):
-    if (type(other) in [int, float, long] or isinstance(other, FieldOutput) or isinstance(other, VectorFieldOutput)) == False:
+    if (type(other) in [int, float] or isinstance(other, FieldOutput) or isinstance(other, VectorFieldOutput)) == False:
       return NotImplemented
     s1, s2, s3, o1, o2, o3 = self._PreProcess(other)
     out1, out2, out3 = s1 + o1, s2 + o2, s3 + o3
@@ -2206,7 +2206,7 @@ class VectorFieldOutput:
   __radd__ = __add__
       
   def __mul__(self, other): # term wise product
-    if (type(other) in [int, float, long] or isinstance(other, FieldOutput) or isinstance(other, VectorFieldOutput)) == False:
+    if (type(other) in [int, float] or isinstance(other, FieldOutput) or isinstance(other, VectorFieldOutput)) == False:
       return NotImplemented
     s1, s2, s3, o1, o2, o3 = self._PreProcess(other)
     out1, out2, out3 = s1 * o1, s2 * o2, s3 * o3
@@ -2222,37 +2222,37 @@ class VectorFieldOutput:
     :type other: ``VectorFieldOutput``
     :rtype: ``FieldOutput``
     '''
-    if (type(other) in [int, float, long] or isinstance(other, FieldOutput) or isinstance(other, VectorFieldOutput)) == False:
+    if (type(other) in [int, float] or isinstance(other, FieldOutput) or isinstance(other, VectorFieldOutput)) == False:
       return NotImplemented
     return (self * other).sum()
     
   def __neg__(self):
-    if (type(other) in [int, float, long] or isinstance(other, FieldOutput) or isinstance(other, VectorFieldOutput)) == False:
+    if (type(other) in [int, float] or isinstance(other, FieldOutput) or isinstance(other, VectorFieldOutput)) == False:
       return NotImplemented
     other = 1.
     s1, s2, s3 = self.get_coord(1), self.get_coord(2), self.get_coord(3)
     return VectorFieldOutput(data1 = -s1, data2 = -s2, data3 = -s3)
     
   def __sub__(self, other):
-    if type(other) in [int, float, long] or isinstance(other, FieldOutput) or isinstance(other, VectorFieldOutput) == False:
+    if type(other) in [int, float] or isinstance(other, FieldOutput) or isinstance(other, VectorFieldOutput) == False:
       return NotImplemented
     return self + (-other)   
   
   def __rsub__(self, other):
-    if (type(other) in [int, float, long] or isinstance(other, FieldOutput) or isinstance(other, VectorFieldOutput)) == False:
+    if (type(other) in [int, float] or isinstance(other, FieldOutput) or isinstance(other, VectorFieldOutput)) == False:
       return NotImplemented
     return -self + other
     
     
   def __div__(self, other):
-    if (type(other) in [int, float, long] or isinstance(other, FieldOutput) or isinstance(other, VectorFieldOutput)) == False:
+    if (type(other) in [int, float] or isinstance(other, FieldOutput) or isinstance(other, VectorFieldOutput)) == False:
       return NotImplemented
     s1, s2, s3, o1, o2, o3 = self._PreProcess(other)
     out1, out2, out3 = s1 / o1, s2 / o2, s3 / o3
     return self._PostProcess(out1, out2, out3)
     
   def __rdiv__(self, other):
-    if (type(other) in [int, float, long] or isinstance(other, FieldOutput) or isinstance(other, VectorFieldOutput)) == False:
+    if (type(other) in [int, float] or isinstance(other, FieldOutput) or isinstance(other, VectorFieldOutput)) == False:
       return NotImplemented
     return other * self**-1
     
@@ -2273,7 +2273,7 @@ class VectorFieldOutput:
     return self._PostProcess(out1, out2, out3)
   
   def __pow__(self, other): 
-    if (type(other) in [int, float, long] or isinstance(other, FieldOutput) or isinstance(other, VectorFieldOutput)) == False:
+    if (type(other) in [int, float] or isinstance(other, FieldOutput) or isinstance(other, VectorFieldOutput)) == False:
       return NotImplemented
     s1, s2, s3, o1, o2, o3 = self._PreProcess(other)
     out1, out2, out3 = s1 ** o1, s2 ** o2, s3 ** o3
@@ -2382,7 +2382,7 @@ class TensorFieldOutput:
     isNone = [data11 == None, data22 == None, data33 == None, data12 == None, data13 == None, data23 == None]
     for d in data:
       if (isinstance(d,FieldOutput) == False) and (d != None):
-        raise Exception, 'data11, data22, data33, data12, data13 and data23 must be FieldOutput instances.'
+        raise Exception('data11, data22, data33, data12, data13 and data23 must be FieldOutput instances.')
     if isNone != [True, True, True, True, True, True]:
       for i in [5,4,3,2,1,0]:
         d = data[i]
@@ -2390,18 +2390,18 @@ class TensorFieldOutput:
       labels = refData.labels
       useShortInts = True
       positions = []
-      for i in xrange(6):
+      for i in range(6):
         if data[i] == None: data[i] = ZeroFieldOutput_like(refData)
         if data[i].labels != labels:
-          raise Exception, 'data11, data22, data33, data12, data13 and data23 must be fieldOutputs sharing the same labels.'    
+          raise Exception('data11, data22, data33, data12, data13 and data23 must be fieldOutputs sharing the same labels.')    
         if data[i].dtf == 'd': self.dtf == 'd'
         if data[i].dti == 'I': useShortInts = False
         positions.append(data[i].position)
       if useShortInts: self.dti = 'H'            
       if len(set(positions)) > 1:
-        raise Exception, 'inputs must have the same position or be None.'
+        raise Exception('inputs must have the same position or be None.')
       '''
-      for i in xrange(len(labels)):
+      for i in range(len(labels)):
         l = labels[i]
         d1, d2, d3 = data[0].data[i] , data[1].data[i] , data[2].data[i]
         self.add_data(label = l, data1 = d1, data2 = d2, data3 = d3)
@@ -2423,7 +2423,7 @@ class TensorFieldOutput:
     import numpy as np
     #from copy import copy
     if number not in [11, 22, 33, 12, 13, 23]:
-      raise Exception, 'number must be 11, 22, 33, 12, 13 or 23'  
+      raise Exception('number must be 11, 22, 33, 12, 13 or 23')  
     dti, dtf = self.dti, self.dtf
     position = self.position
     if number == 11: data = self.data11
@@ -2445,13 +2445,13 @@ class TensorFieldOutput:
     .. note:: Requesting data at a label that does not exist in the instance will just lead in a warning but if label is negative or is not int, then an Exception will be raised.
     '''
      
-    if type(label) not in [int, long] or label <= 0:
-      raise Exception, 'label must be int > 0, got {0}'.format(label)  
+    if type(label) not in [int] or label <= 0:
+      raise Exception('label must be int > 0, got {0}'.format(label))  
     if label in self.labels:
       i = self.labels.index(label)
       return self.data11[i], self.data22[i], self.data33[i], self.data12[i], self.data13[i], self.data23[i] 
     else:
-      print 'Info: requesting data at non existant location, returning None'
+      print ('Info: requesting data at non existant location, returning None')
       
   def add_data(self,label, data11=0., data22=0., data33=0., data12=0., data13=0., data23=0.):
     '''
@@ -2476,7 +2476,7 @@ class TensorFieldOutput:
     from array import array
     dti,dtf = self.dti, self.dtf
     if label in self.labels:
-      print 'data already exists at this node'
+      print ('data already exists at this node')
       return 
     else:
       self_data11, self_data22, self_data33, self_labels = self.data11, self.data22, self.data33, self.labels
@@ -2518,7 +2518,7 @@ class TensorFieldOutput:
       out += "{0} {1}\n".format(dataType, ld)
     out += 'TENSORS {0} float\n'.format(name)
     pattern = '{0} {3} {4}\n{3} {1} {5}\n{4} {5} {2}\n\n'
-    for i in xrange(ld):
+    for i in range(ld):
       out += pattern.format(d11[i], d22[i], d33[i], d12[i], d13[i], d23[i])
     return out
     
@@ -2528,7 +2528,7 @@ class TensorFieldOutput:
     data12, data13, data23 =  self.data12, self.data13, self.data23
     out = 'TensorFieldOutput instance\nPosition = {0}\nLabel\tData11\tData22\tData33\tData12\tData13\tData23\n'.format(position)
     pattern = '{0}\t{1:.1e}\t{2:.1e}\t{3:.1e}\t{4:.1e}\t{5:.1e}\t{6:.1e}\n'
-    for i in xrange(len(labels)): out += pattern.format(labels[i], data11[i], data22[i], data33[i], data12[i], data13[i], data23[i])
+    for i in range(len(labels)): out += pattern.format(labels[i], data11[i], data22[i], data33[i], data12[i], data13[i], data23[i])
     return out
     
   def __repr__(self):
@@ -2539,7 +2539,7 @@ class TensorFieldOutput:
     from copy import deepcopy
     from numpy import nan
     labs = []
-    if type(s) in [int, long]:
+    if type(s) in [int]:
       labs = [s]
     if type(s) is slice:
       start = s.start
@@ -2548,7 +2548,7 @@ class TensorFieldOutput:
       labs = range(start,stop,step)
     if type(s) in [tuple,list,array]:  
       for a in s:
-        if type(a) in [int, long]:labs.append(a)
+        if type(a) in [int]:labs.append(a)
        
     labels = self.labels
     dtf = self.dtf
@@ -2581,7 +2581,7 @@ class TensorFieldOutput:
     if isinstance(other, FieldOutput):
       o = other
       otype = 'scalar'
-    if type(other) in [float, int, long]:
+    if type(other) in [float, int]:
       o = other * OneFieldOutput_like(self.get_component(11))
       otype = 'scalar'
     return s11, s22, s33, s12, s13, s23, otype, o
@@ -2605,7 +2605,7 @@ class TensorFieldOutput:
       out12, out13, out23 = s12 + o, s13 + o, s23 + o
       return self._TensorPostProcess(out11, out22, out33, out12, out13, out23)
     if otype == 'vector':
-      raise Exception, 'Tensors and vectors cannot be added.'
+      raise Exception('Tensors and vectors cannot be added.')
     if otype == 'tensor':
       o11, o22, o33, o12, o13, o23 = o[0], o[1], o[2], o[3], o[4], o[5] 
       out11, out22, out33 = s11 + o11, s22 + o22, s33 + o33
@@ -2654,7 +2654,7 @@ class TensorFieldOutput:
       out12, out13, out23 = s12 / o, s13 / o, s23 / o
       return self._TensorPostProcess(out11, out22, out33, out12, out13, out23)
     if otype in ['tensor, vector']:
-      raise Exception, 'tensor division is only defined with scalars.'
+      raise Exception('tensor division is only defined with scalars.')
          
   def __rdiv__(self, other):
     return other * self**-1
@@ -2667,7 +2667,7 @@ class TensorFieldOutput:
       out12, out13, out23 = s12 ** o, s13 ** o, s23 ** o
       return self._TensorPostProcess(out11, out22, out33, out12, out13, out23)
     if otype in ['tensor, vector']:
-      raise Exception, 'tensor power is only defined with scalars.'
+      raise Exception('tensor power is only defined with scalars.')
     
   def __abs__(self): 
     other = 1.
@@ -2785,7 +2785,7 @@ class TensorFieldOutput:
     dti, dtf = self.dti, self.dtf
     d1, d2, d3 = s1.data, s2.data, s3.data
     t = [] 
-    for i in xrange(len(labels)):
+    for i in range(len(labels)):
       t.append( max([ abs(d1[i] - d2[i]), abs(d1[i] - d3[i]), abs(d3[i] - d2[i]) ]) )
     return FieldOutput(labels = labels, data = t, position = pos, dti = dti, dtf = dtf)
     
@@ -2831,7 +2831,7 @@ class TensorFieldOutput:
     if dtf == 'd': ndtf = float64
     eigval1, eigval2, eigval3 = [], [], [] 
     eigvec1, eigvec2, eigvec3 = [], [], []
-    for i in xrange(len(labels)):
+    for i in range(len(labels)):
       label = labels[i]
       s11, s22, s33, s12, s13, s23 = self.get_data(label)
       t = array([ [s11, s12, s13] , [s12, s22, s23] , [s13, s23, s33] ], dtype = ndtf)
@@ -2895,7 +2895,7 @@ def Identity_like(fo):
   from array import array
   from numpy import ones_like
   if isinstance(fo,TensorFieldOutput) == False:
-    raise Exception, 'input must be TensorFieldOutput instance.'
+    raise Exception('input must be TensorFieldOutput instance.')
   d11 = OneFieldOutput_like(fo.get_component(11))
   d22 = OneFieldOutput_like(fo.get_component(11))
   d33 = OneFieldOutput_like(fo.get_component(11))

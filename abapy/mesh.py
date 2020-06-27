@@ -138,7 +138,7 @@ class Nodes(object):
     self.z = array(dtf,[])
     self.labels = array(dti,[])
     self.sets = {}
-    for i in xrange(len(labels)):
+    for i in range(len(labels)):
       self.add_node(label = labels[i], x = x[i], y = y[i], z = z[i])
     
     for k in sets.keys():
@@ -188,7 +188,7 @@ class Nodes(object):
     X, Y, Z = self.x, self.y, self.z
     if len(labels) == 0:
       if label == None: label = 1
-      if label < 1: raise Exception, 'node labels must be > 0.'
+      if label < 1: raise Exception('node labels must be > 0.')
       labels.append(label)
       X.append(x)
       Y.append(y)
@@ -217,7 +217,7 @@ class Nodes(object):
             Y.insert(i,y)
             Z.insert(i,z)
         else:
-          print 'Info: node with label {0} already exists, nothing changed.'.format(label)
+          print ('Info: node with label {0} already exists, nothing changed.'.format(label))
           return
     if toset != None:
       if type(toset) is str:
@@ -339,9 +339,9 @@ class Nodes(object):
           if node not in self.sets[label]: 
             s.append(node)
           else:
-           print 'Info: node {0} was already in set {1}, node was not added to set'.format(node, label)
+           print ('Info: node {0} was already in set {1}, node was not added to set'.format(node, label))
         else:
-          print 'Info: node {0} does not exist, node was not added to set'.format(node)
+          print ('Info: node {0} does not exist, node was not added to set'.format(node))
   
   def add_set_by_func(self, name, func):
     '''
@@ -356,7 +356,7 @@ class Nodes(object):
 
      '''
     from numpy import array, float32, float64, uint32, where
-    if type(name) is not str: raise Exception, 'set labels must be strings, got {0}.'.format(type(name))
+    if type(name) is not str: raise Exception('set labels must be strings, got {0}.'.format(type(name)))
     if self.dtf == 'f': n_dtf = float32
     if self.dtf == 'd': n_dtf = float64
     x = array(self.x, dtype = n_dtf)
@@ -381,7 +381,7 @@ class Nodes(object):
 
      '''
     from numpy import array, float32, float64, uint32, where
-    if type(name) is not str: raise Exception, 'set labels must be strings, got {0}.'.format(type(name))
+    if type(name) is not str: raise Exception('set labels must be strings, got {0}.'.format(type(name)))
     if self.dtf == 'f': n_dtf = float32
     if self.dtf == 'd': n_dtf = float64
     x = array(self.x, dtype = n_dtf)
@@ -449,7 +449,7 @@ class Nodes(object):
     sets = self.sets
     out ='**----------------------------------\n** NODES\n**----------------------------------\n*NODE, NSET=ALLNODES\n'
     pattern = '  {0}, {1}, {2}, {3}\n'
-    for i in xrange(len(labels)):
+    for i in range(len(labels)):
       out += pattern.format(labels[i],x[i],y[i],z[i])
     out +='**----------------------------------\n** NODE SETS\n**----------------------------------\n'
     pattern = '*NSET, NSET={0}\n'
@@ -475,7 +475,7 @@ class Nodes(object):
     y = self.y
     z = self.z
     out ='Nodes class instance:\nNodes:\nLabel\tx\ty\tz\n'
-    for i in xrange(len(labels)):
+    for i in range(len(labels)):
       out +=  '{0}\t{1}\t{2}\t{3}\n'.format(labels[i],x[i],y[i],z[i])
     out+= 'Sets:\nLabel\tNodes\n'
     for k in self.sets.keys():
@@ -487,7 +487,7 @@ class Nodes(object):
   def __getitem__(self,s):
     from array import array
     from copy import deepcopy
-    if type(s) in [int, long]:
+    if type(s) in [int]:
       labs = [s]
     if type(s) is slice:
       start = s.start
@@ -497,7 +497,7 @@ class Nodes(object):
     if type(s) in [tuple,list]:  
       labs = []
       for a in s:
-       if type(a) in [int, long]:labs.append(a)
+       if type(a) in [int]:labs.append(a)
        if type(a) is str:labs += self.sets[a.lower()].tolist()
     if type(s) is str:
       s = s.lower() 
@@ -577,7 +577,7 @@ class Nodes(object):
     if label in self.sets.keys():
       del self.sets[label]
     else:
-      print 'Info: sets {0} does not exist and cannot be dropped.'.format(label)     
+      print ('Info: sets {0} does not exist and cannot be dropped.'.format(label))     
   
   def eval_function(self, function):
     '''
@@ -688,10 +688,10 @@ class Nodes(object):
     if dtf == 'f': n_dtf = float32
     if dtf == 'd': n_dtf = float64
     if isinstance(disp,VectorFieldOutput) == False:
-      raise Exception, 'disp must be VectorFieldOutput instance.'
+      raise Exception('disp must be VectorFieldOutput instance.')
     # labels = set(mesh.nodes.labels.tolist() + disp.labels.tolist()) # Dangerous method
     n_labels, u_labels = self.labels, disp.labels
-    if n_labels != u_labels: raise Exception, 'Nodes labels and VectorFieldOutput labels must be identical.'
+    if n_labels != u_labels: raise Exception('Nodes labels and VectorFieldOutput labels must be identical.')
     n1, n2, n3 = n_array(self.x, dtype=n_dtf), n_array(self.y, dtype=n_dtf), n_array(self.z, dtype=n_dtf)
     u1, u2, u3 = n_array(disp.data1, dtype=n_dtf), n_array(disp.data2, dtype=n_dtf), n_array(disp.data3, dtype=n_dtf)
     self.x = a_array(dtf, ( n1 + u1 ).tolist() )
@@ -732,7 +732,7 @@ class Nodes(object):
     nlabels = self.labels
     x, y, z = self.x, self.y, self.z
     # Some verifications
-    if old not in nlabels or new not in nlabels: raise Exception, 'Both node labels must exist.'
+    if old not in nlabels or new not in nlabels: raise Exception('Both node labels must exist.')
     # Let's proceed
     i_old, i_new = nlabels.index(old), nlabels.index(new)
     nlabels.pop(i_old)
@@ -773,8 +773,8 @@ class Nodes(object):
     from numpy import array as n_array
     from numpy import float32, float64, sqrt
     from array import array as a_array
-    if len(point) != 3: raise Exception, 'point must be a list  of length 3.'
-    if len(normal) != 3: raise Exception, 'normal must be a list  of length 3.'
+    if len(point) != 3: raise Exception('point must be a list  of length 3.')
+    if len(normal) != 3: raise Exception('normal must be a list  of length 3.')
     if self.dtf == 'f' : a_dtf = float32
     if self.dtf == 'd' : a_dtf = float64
     xp, yp, zp = point[0], point[1], point[2] 
@@ -881,7 +881,7 @@ class Mesh(object):
       dti = self.dti
       dtf = self.dtf
     else:
-      raise Exception, 'nodes argument must be a Nodes class instance.'
+      raise Exception('nodes argument must be a Nodes class instance.')
     if name == None: name = [None for i in labels]
     self.labels = array(dti,[])
     self.connectivity = []
@@ -891,12 +891,12 @@ class Mesh(object):
     self.surfaces = {}
     self.fields = {}
     l = len(labels)
-    if len(connectivity) != len(labels): raise Exception, 'connectivity must have the same length as labels.'
-    if len(space) != len(labels): raise Exception, 'space must have the same length as labels.'
-    if len(name) != len(labels): raise Exception, 'if not None, name must have the same length as labels.'
-    for i in xrange(len(labels)):
+    if len(connectivity) != len(labels): raise Exception('connectivity must have the same length as labels.')
+    if len(space) != len(labels): raise Exception('space must have the same length as labels.')
+    if len(name) != len(labels): raise Exception('if not None, name must have the same length as labels.')
+    for i in range(len(labels)):
       self.add_element(label = labels[i],connectivity = connectivity[i],space = space[i],name = name[i])
-    if type(sets) is not dict: raise Exception, 'sets type must be dict.'
+    if type(sets) is not dict: raise Exception('sets type must be dict.')
     for k in sets.keys():
       self.add_set(k, sets[k])
     for k in surfaces.keys():
@@ -905,7 +905,7 @@ class Mesh(object):
   def __getitem__(self,s):
     from array import array
     from copy import deepcopy
-    if type(s) in [int, long]:
+    if type(s) in [int]:
       labs = [s]
     if type(s) is slice:
       if s.start != None: 
@@ -921,7 +921,7 @@ class Mesh(object):
     if type(s) in [tuple,list]:  
       labs = []
       for a in s:
-       if type(a) in [int, long]:labs.append(a)
+       if type(a) in [int]:labs.append(a)
        if type(a) is str:labs += self.sets[a.lower()].tolist()
     if type(s) is str:
       s = s.lower()
@@ -948,7 +948,7 @@ class Mesh(object):
           toset.append(sk)
       E.add_element(label = l, connectivity = connectivity[i], space = space[i], name = name[i], toset = toset)
     nlabs = []
-    for i in xrange(len(E.connectivity)):
+    for i in range(len(E.connectivity)):
       nlabs += E.connectivity[i].tolist()
     nlabs = [i for i in set(nlabs)]
     E.nodes = self.nodes[nlabs]
@@ -964,7 +964,7 @@ class Mesh(object):
     s = self.space
     n = self.name
     out ='Mesh class instance:\nElements:\nLabel\tConnectivity\t\tSpace\tName\n'
-    for i in xrange(len(labels)):
+    for i in range(len(labels)):
       out +=  '{0}\t{1}\t{2}\t{3}\n'.format(labels[i],c[i].tolist(),'{0}D'.format(s[i]),n[i])
     out+= 'Sets:\nLabel\tElements\n'
     for k in self.sets.keys():
@@ -1024,13 +1024,13 @@ class Mesh(object):
     try:
       label = int(label)
     except:
-      raise Exception, 'element labels must be int.'
-    if space not in [1,2,3]: raise Exception, 'space must be 1,2 or 3'
+      raise Exception('element labels must be int.')
+    if space not in [1,2,3]: raise Exception('space must be 1,2 or 3')
     if name == None: name = ''
-    if type(name) is not str: raise Exception, 'name type must be str'  
+    if type(name) is not str: raise Exception('name type must be str'  )
     # inputs processing
     if label in self.labels: 
-      print 'Info: element {0} already exists, nothing changed.'.format(label)
+      print ('Info: element {0} already exists, nothing changed.'.format(label))
       return
     else:
       if len(self.labels) == 0:
@@ -1099,7 +1099,7 @@ class Mesh(object):
         del sets[k]    
         for s in surfaces.keys():
           surf = surfaces[s]
-          for i in xrange(len(surf)):
+          for i in range(len(surf)):
             if surf[i][0] == k:
               del surf[i] 
     for s in surfaces.keys():
@@ -1107,7 +1107,7 @@ class Mesh(object):
     
   def drop_node(self, label):
     '''
-    Drops a node from mesh.nodes instance. This method differs from to the nodes.drop_node element because it removes the node but also all elements containing the node in the mesh instance.
+    Drops a node from abapy.mesh.nodes instance. This method differs from to the nodes.drop_node element because it removes the node but also all elements containing the node in the mesh instance.
     
     :param label: node to be removed's label.
     :type label: int > 0
@@ -1119,7 +1119,7 @@ class Mesh(object):
     labels = self.labels
     conn = self.connectivity
     elem2remove = []
-    for i in xrange(len(labels)):
+    for i in range(len(labels)):
       if label in conn[i]: elem2remove.append(labels[i])
     for l in elem2remove: self.drop_element(l)
         
@@ -1167,7 +1167,7 @@ class Mesh(object):
 
     '''
     from array import array
-    if type(label) is not str: raise Exception, 'set names must be strings.'
+    if type(label) is not str: raise Exception('set names must be strings.')
     label2 = label.lower()
     if label2 not in self.sets: self.sets[label2] = array(self.dti,[])
     if type(elements) == int or type(elements) == long: elements = [elements]
@@ -1176,7 +1176,7 @@ class Mesh(object):
       if i in self.labels: 
         self.sets[label2].append(i)
       else:
-        print 'Info: element {0} does not exist, it was not added to set {1}.'.format(i,label2)
+        print ('Info: element {0} does not exist, it was not added to set {1}.'.format(i,label2))
     self.sets[label2] = list(set(self.sets[label2]))
   
   def add_surface(self, label, description):
@@ -1196,16 +1196,16 @@ class Mesh(object):
     {'topsurface': [('top', 1), ('top', 2)]}
     '''
     
-    if type(label) is not str: raise Exception, 'Surface labels must be string, got {0} instead'.format(type(label))
-    if type(description) is not list: raise Exception, 'Surface description must be list, got {0} instead'.format(type(description))
-    for i in xrange(len(description)):
+    if type(label) is not str: raise Exception('Surface labels must be string, got {0} instead'.format(type(label)))
+    if type(description) is not list: raise Exception('Surface description must be list, got {0} instead'.format(type(description)))
+    for i in range(len(description)):
       t = description[i]
-      if len(t) != 2: raise Exception , 'Surface description elements must have 2 elements, got {0} instead'.format(len(t))
-      if type(t[0]) is not str: raise Exception, '(In surface) Element sets keys must must be str, got {0} instead'.format(type(t[0]))
-      if type(t[1]) not in [int, long]: raise Exception, 'Face numbers must keys must be int (generally in [1...6]), got {0} instead'.format(type(t[1]))
+      if len(t) != 2: raise Exception('Surface description elements must have 2 elements, got {0} instead'.format(len(t)))
+      if type(t[0]) is not str: raise Exception('(In surface) Element sets keys must must be str, got {0} instead'.format(type(t[0])))
+      if type(t[1]) not in [int]: raise Exception('Face numbers must keys must be int (generally in [1...6]), got {0} instead'.format(type(t[1])))
     if label not in self.surfaces.keys(): self.surfaces[label] = []
     surf = self.surfaces[label]
-    for i in xrange(len(description)):
+    for i in range(len(description)):
       t = description[i]
       tt = ( t[0] , t[1] )
       if tt not in surf: surf.append(tt)
@@ -1248,13 +1248,13 @@ class Mesh(object):
     elTypes = set(self.name)
     elements = {}
     for elType in elTypes: elements[elType] = []
-    for i in xrange(len(self.labels)): elements[self.name[i]].append(self.labels[i])
+    for i in range(len(self.labels)): elements[self.name[i]].append(self.labels[i])
     for elType in elements.keys():
       els = elements[elType]
       if len(els) != 0:
         out +='*ELEMENT, TYPE={0}, ELSET={0}_ELEMENTS\n'.format(elType)
         pattern = '{0}, '
-        for k in xrange(len(els)):
+        for k in range(len(els)):
           label = els[k]
           i = self.labels.index(label)
           conn = self.connectivity[i]
@@ -1310,7 +1310,7 @@ class Mesh(object):
     nodes = deepcopy(self.nodes)
     #surfaces = deepcopy(self.surfaces)
     el2 = Mesh(nodes)
-    for i in xrange(len(self.labels)):
+    for i in range(len(self.labels)):
       l = int(self.labels[i])
       c = self.connectivity[i]
       s = self.space[i]
@@ -1355,11 +1355,11 @@ class Mesh(object):
     xe,ye, ze =[],[],[]
     bi = borderEdges.index
     ni = self.nodes.labels.index
-    for ne in xrange(len(self.labels)):
+    for ne in range(len(self.labels)):
       if self.space[ne] == 2:
         el = conn[ne]
         el = [n for n in el]+[el[0]]
-        for i in xrange(len(el)-1):
+        for i in range(len(el)-1):
           edge = (el[i],el[i+1])
           revert = (edge[1],edge[0]) 
           if revert not in borderEdges and edge not in borderEdges:
@@ -1427,11 +1427,11 @@ class Mesh(object):
     xe,ye, ze =[],[],[]
     bi = borderEdges.index
     ni = self.nodes.labels.index
-    for ne in xrange(len(self.labels)):
+    for ne in range(len(self.labels)):
       if self.space[ne] == 2:
         el = conn[ne]
         el = [n for n in el]+[el[0]]
-        for i in xrange(len(el)-1):
+        for i in range(len(el)-1):
           edge = (el[i],el[i+1])
           revert = (edge[1],edge[0]) 
           if revert not in borderEdges and edge not in borderEdges:
@@ -1482,7 +1482,7 @@ class Mesh(object):
     if label in self.sets.keys():
       del self.sets[label]
     else:
-      print 'Info: sets {0} does not exist and cannot be dropped.'.format(label)     
+      print ('Info: sets {0} does not exist and cannot be dropped.'.format(label))     
    
   def extrude(self, N = 1 , l = 1., quad = False, mapping = {}):
     '''
@@ -1509,7 +1509,7 @@ class Mesh(object):
     omesh = Mesh(nodes = deepcopy(inodes)) # Output Mesh
     tempmesh = Mesh(nodes = deepcopy(inodes)) # Temporary Mesh
     # Selection of 2D elements
-    for i in xrange(len(self.labels)):
+    for i in range(len(self.labels)):
       label = self.labels[i]
       conn = self.connectivity[i]
       space = self.space[i]
@@ -1525,13 +1525,13 @@ class Mesh(object):
     nmax, emax = max(self.nodes.labels), max(self.labels)
     # Creating new nodes and elements
     if quad == False:
-      for i in xrange(N):
+      for i in range(N):
         # Nodes
         tn =  tempmesh.nodes
         te =  tempmesh
         tns = tempmesh.nodes.sets
         tes = tempmesh.sets
-        for nn in xrange(len(tn.labels)):
+        for nn in range(len(tn.labels)):
           oldLabel = tn.labels[nn]
           label = oldLabel + (i+1) * nmax
           x = tn.x[nn]
@@ -1540,7 +1540,7 @@ class Mesh(object):
           omesh.nodes.add_node(label,x,y,z)
          
         # Elements
-        for ne in xrange(len(te.labels)):
+        for ne in range(len(te.labels)):
           oldLabel = te.labels[ne]
           label = oldLabel + i * emax
           conn  = te.connectivity[ne]
@@ -1564,13 +1564,13 @@ class Mesh(object):
       for k in ins.keys(): # Nodes
         s = ins[k]
         os = []
-        for i in xrange(1, N+1):
+        for i in range(1, N+1):
           os += [ l + i * nmax for l in s]
         onodes.add_set(k, deepcopy(os)) 
       for k in ies.keys(): # Elements
         s = ies[k]
         os = []
-        for i in xrange(N):
+        for i in range(N):
           os += [ l + i * emax for l in s]
         omesh.add_set(k, deepcopy(os))   
     # Managing surfaces:
@@ -1589,13 +1589,13 @@ class Mesh(object):
             i = self.labels.index(l)
             etype.append(len(self.connectivity[i]))   
         F = {3:[],4:[],5:[],6:[] }
-        for i in xrange(len(elems)):
+        for i in range(len(elems)):
           l = elems[i]
           f = faces[i]
           t = etype[i]
-          F[f+2] += [l + emax * layer for layer in xrange(N)]
+          F[f+2] += [l + emax * layer for layer in range(N)]
         surf = []  
-        for i in xrange(3,7):
+        for i in range(3,7):
           j = 0
           set_label = set_pattern.format(k,i,j)
           while set_label in self.sets.keys():
@@ -1636,7 +1636,7 @@ class Mesh(object):
     
     tempmesh = Mesh(nodes = deepcopy(inodes)) # Temporary Mesh
     # Selection of 2D elements
-    for i in xrange(len(self.labels)):
+    for i in range(len(self.labels)):
       label = self.labels[i]
       conn = self.connectivity[i]
       space = self.space[i]
@@ -1665,13 +1665,13 @@ class Mesh(object):
     else:
       transform = transform_sweep
     if quad == False:
-      for layer in xrange(N):
+      for layer in range(N):
         # Nodes
         tn =  tempmesh.nodes
         te =  tempmesh
         tns = tempmesh.nodes.sets
         tes = tempmesh.sets
-        for nn in xrange(len(tn.labels)):
+        for nn in range(len(tn.labels)):
           oldLabel = tn.labels[nn]
           label = oldLabel + (layer+1) * nmax
           x0, y0, z0 = tn.x[nn], tn.y[nn], tn.z[nn]
@@ -1683,13 +1683,13 @@ class Mesh(object):
         # Elements
         def get_nodesOnAxis(conn):
           nodesOnAxis = [False for l in oldconn]
-          for i in xrange(len(oldconn)):
+          for i in range(len(oldconn)):
             indice = tn.labels.index(oldconn[i])
             x,y,z = tn.x[indice], tn.y[indice], tn.z[indice]
             if x == 0. and z == 0.: nodesOnAxis[i] = True
           return nodesOnAxis
           
-        for ne in xrange(len(te.labels)):
+        for ne in range(len(te.labels)):
           oldLabel = te.labels[ne]
           label = oldLabel + layer * emax
           oldconn, newconn  = te.connectivity[ne], None
@@ -1701,7 +1701,7 @@ class Mesh(object):
             if len(oldconn) == 3:
               """
               newconn = []
-              for i in xrange(3):
+              for i in range(3):
               
                 if nodesOnAxis[i] == True: 
                   out_of_axis = i
@@ -1728,7 +1728,7 @@ class Mesh(object):
               name = 'C3D{0}'.format(len(newconn))
             omesh.add_element(label = label,connectivity = newconn,space = 3,name = name)
           else:
-            print 'element {0} has not been sweeped'.format(oldLabel)
+            print ('element {0} has not been sweeped'.format(oldLabel))
     # Managing sets
     if quad == False:
       ins = self.nodes.sets
@@ -1738,7 +1738,7 @@ class Mesh(object):
       for k in ins.keys(): # Nodes
         s = ins[k]
         os = []
-        for i in xrange(1, N+1):
+        for i in range(1, N+1):
           for l in s:
             l2 = l + i * nmax
             if l2 in omesh.nodes.labels: os.append(l2)
@@ -1746,14 +1746,14 @@ class Mesh(object):
       for k in ies.keys(): # Elements
         s = ies[k]
         os = []
-        for i in xrange(N):
+        for i in range(N):
           for l in s:
             l2 = l + i * emax
             if l2 in omesh.labels: os.append(l2)
         omesh.add_set(k, deepcopy(os))   
       # front and back node sets
       frontnodes = []
-      for i in xrange(len(inodes.labels)):
+      for i in range(len(inodes.labels)):
         oldLabel = inodes.labels[i]
         x, y, z = inodes.x[i], inodes.y[i], inodes.z[i] 
         if x != 0. or z != 0.: frontnodes.append(oldLabel)
@@ -1775,33 +1775,33 @@ class Mesh(object):
             i = self.labels.index(l)
             etype.append(len(self.connectivity[i]))   
         F = {1:[],2:[],3:[],4:[],5:[],6:[] }
-        for i in xrange(len(elems)):
+        for i in range(len(elems)):
           l = elems[i]
           f = faces[i]
           t = etype[i]
           pos = omesh.labels.index(l)
           t2 = len(omesh.connectivity[pos])
           if t == 3:
-            if t2 == 6: F[f+2] += [l + emax * layer for layer in xrange(N)]
+            if t2 == 6: F[f+2] += [l + emax * layer for layer in range(N)]
             if t2 == 4: 
               #pos0 = pos = self.labels.index(l)
               #oldconn = self.connectivity[pos0]
               #newconn = omesh.connectivity[pos]
               #nnoa = newconn[-1]-nmax
               #innoa = oldconn.index(nnoa)
-              if f == 1 : F[2] += [l + emax * layer for layer in xrange(N)]
-              if f == 2 : F[3] += [l + emax * layer for layer in xrange(N)]
-              #if f == 3 and innoa in [3,1] : F[4] += [l + emax * layer for layer in xrange(N)]
+              if f == 1 : F[2] += [l + emax * layer for layer in range(N)]
+              if f == 2 : F[3] += [l + emax * layer for layer in range(N)]
+              #if f == 3 and innoa in [3,1] : F[4] += [l + emax * layer for layer in range(N)]
               
           if t == 4:
-            if t2 == 8: F[f+2] += [l + emax * layer for layer in xrange(N)]
+            if t2 == 8: F[f+2] += [l + emax * layer for layer in range(N)]
             if t2 == 6: 
-              if f == 1 : F[1] += [l + emax * layer for layer in xrange(N)]
-              if f == 2 : F[4] += [l + emax * layer for layer in xrange(N)]
-              if f == 3 : F[2] += [l + emax * layer for layer in xrange(N)]
+              if f == 1 : F[1] += [l + emax * layer for layer in range(N)]
+              if f == 2 : F[4] += [l + emax * layer for layer in range(N)]
+              if f == 3 : F[2] += [l + emax * layer for layer in range(N)]
               
         surf = []  
-        for i in xrange(1,7):
+        for i in range(1,7):
           j = 0
           set_label = set_pattern.format(k,i,j)
           while set_label in self.sets.keys():
@@ -1837,18 +1837,18 @@ class Mesh(object):
     nnodes = len(nodes.labels)
     ni = nodes.labels.index
     out += 'POINTS {0} float\n'.format(nnodes)
-    for i in xrange(nnodes):
+    for i in range(nnodes):
       out += '{0} {1} {2}\n'.format(nodes.x[i], nodes.y[i], nodes.z[i])
     # Elements:
     
     esize = 0
     nel = len(self.labels)
-    for i in xrange(nel): esize += 1 + len(self.connectivity[i])
+    for i in range(nel): esize += 1 + len(self.connectivity[i])
     out += 'CELLS {0} {1}\n'.format(nel, esize)
     eTypes = 'CELL_TYPES {0}\n'.format(nel)
     pattern = '{0} '
     pattern2 = '{0}\n'
-    for i in xrange(nel):
+    for i in range(nel):
       c = self.connectivity[i]
       s = self.space[i]
       lc = len(c)
@@ -1998,10 +1998,10 @@ class Mesh(object):
     esets = self.sets
     nlabels = self.nodes.labels
     # Some verifications
-    if old not in nlabels or new not in nlabels: raise Exception, 'Both node labels must exist.'
+    if old not in nlabels or new not in nlabels: raise Exception('Both node labels must exist.')
     self.nodes.replace_node(old, new)
     # Let's proceed
-    for i in xrange(len(elabels)):
+    for i in range(len(elabels)):
       c = conn[i]
       if old in c:
         pos = c.index(old)
@@ -2010,7 +2010,7 @@ class Mesh(object):
           c.insert(pos,new)
         else:
           el = elabels[i]
-          print 'Info: element {0} maybe have become degenerate due du node replacing.'.format(el)  
+          print ('Info: element {0} maybe have become degenerate due du node replacing.'.format(el))  
 
   '''
   def simplify_nodes(self, crit_distance = 1.e-10):
@@ -2047,7 +2047,7 @@ class Mesh(object):
     points = np.array([x,y,z]).transpose()
     neighbors = get_neighbors(points, crit_dist = crit_distance)
     nlabels = np.array(nodes.labels)
-    for i in xrange(len(neighbors)):
+    for i in range(len(neighbors)):
       new_label = nlabels[i]
       n = neighbors[i]
       if n != []:
@@ -2065,7 +2065,7 @@ class Mesh(object):
     :type crit_distance: float > 0
     '''
     from array import array as n_array
-    if isinstance(other_mesh, Mesh) == False: raise Exception, 'other_mesh should be Mesh instance, got {0}'.format(type(other_mesh))
+    if isinstance(other_mesh, Mesh) == False: raise Exception('other_mesh should be Mesh instance, got {0}'.format(type(other_mesh)))
     dti, odti = self.dti, other_mesh.dti
     dtf, odtf = self.dtf, other_mesh.dtf
     if dti == 'I' or odti == 'I': 
@@ -2087,13 +2087,13 @@ class Mesh(object):
       max_elabel = 0
     onodes = other_mesh.nodes
     if len(onodes.labels)!= 0:
-      for i in xrange(len(onodes.labels)):
+      for i in range(len(onodes.labels)):
         l = onodes.labels[i]
         node = onodes[l]
         toset = node.sets.keys()
         x, y, z = node.x[0], node.y[0], node.z[0]
         nodes.add_node(label = l + max_nlabel, x = x, y = y, z = z, toset = toset  )
-      for i in xrange(len(other_mesh.labels)):
+      for i in range(len(other_mesh.labels)):
         l = other_mesh.labels[i]
         element = other_mesh[l]
         toset = element.sets.keys()
@@ -2161,11 +2161,11 @@ class Mesh(object):
 
 
     centroids = np.zeros([len(conn), 3])
-    for n in xrange(len(conn)):
+    for n in range(len(conn)):
       c = conn[n]
       s = space[n]
       vertices = np.zeros([len(c), 3])
-      for i in xrange(len(c)):
+      for i in range(len(c)):
         loc = nodes.labels.index(c[i])
         vertices[i,0] = nodes.x[loc]
         vertices[i,1] = nodes.y[loc]
@@ -2247,11 +2247,11 @@ class Mesh(object):
 
 
     volume = np.zeros([len(conn)])
-    for n in xrange(len(conn)):
+    for n in range(len(conn)):
       c = conn[n]
       s = space[n]
       vertices = np.zeros([len(c), 3])
-      for i in xrange(len(c)):
+      for i in range(len(c)):
         loc = nodes.labels.index(c[i])
         vertices[i,0] = nodes.x[loc]
         vertices[i,1] = nodes.y[loc]
@@ -2458,7 +2458,7 @@ class Mesh(object):
     nodes = self.nodes
     nset = set(nodes.sets[nodeSet])
     f1, f2, f3, f4 = [], [], [], [] 
-    for i in xrange(len(self.labels)):
+    for i in range(len(self.labels)):
       c = list(self.connectivity[i])
       inter = nset & set(c)
       ind = set([c.index(j) for j in inter])
@@ -2514,8 +2514,8 @@ def RegularQuadMesh(N1=1, N2=1, l1=1.,l2=1.,name='QUAD4',dtf='f',dti='I'):
   C = np.reshape(Cx,N1*N2)+np.reshape(Cy,N1*N2) 
   mesh = Mesh(nodes = Nodes(dtf=dtf,dti=dti))
   nodes = mesh.nodes
-  for i in xrange(len(X)): nodes.add_node(None,X[i],Y[i],0.)
-  for i in xrange(len(C)): 
+  for i in range(len(X)): nodes.add_node(None,X[i],Y[i],0.)
+  for i in range(len(C)): 
     mesh.add_element(connectivity = (C[i],C[i]+1,C[i]+N1+2,C[i]+N1+1), space = 2, name = name)
   nodes.add_set('bottomleft', 1)
   nodes.add_set('bottomright', N1+1)
@@ -2667,8 +2667,8 @@ def RegularQuadMesh_like(x_list = [0., 1.], y_list = [0., 1.],name='QUAD4',dtf='
   C = np.reshape(Cx,N1*N2)+np.reshape(Cy,N1*N2) 
   mesh = Mesh(nodes = Nodes(dtf=dtf,dti=dti))
   nodes = mesh.nodes
-  for i in xrange(len(X)): nodes.add_node(None,X[i],Y[i],0.)
-  for i in xrange(len(C)): 
+  for i in range(len(X)): nodes.add_node(None,X[i],Y[i],0.)
+  for i in range(len(C)): 
     mesh.add_element(connectivity = (C[i],C[i]+1,C[i]+N1+2,C[i]+N1+1), space = 2, name = name)
   nodes.add_set('bottomleft', 1)
   nodes.add_set('bottomright', N1+1)
@@ -2688,12 +2688,12 @@ def get_neighbors(points, crit_dist = 0.1, max_hits = 1):
   import scipy.spatial as spatial
   t = spatial.cKDTree(data = points)
   neighbors, hits = [], []
-  for i in xrange(len(t.data)):
+  for i in range(len(t.data)):
     dist, loc = t.query(points[i], k=max_hits+1)
     dist = dist <= crit_dist  
     neighbors.append([])
     n = neighbors[-1]
-    for k in xrange(len(loc)):
+    for k in range(len(loc)):
       l = loc[k]
       d = dist[k]
       if d and (l > i) and (l not in hits): 

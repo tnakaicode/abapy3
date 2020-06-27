@@ -10,7 +10,7 @@ def pypostproc(data):
   if data['completed']:
     return data
   else: 
-    print '<Warning: Simulation aborted, check .msg file for explanations.>'
+    print ('<Warning: Simulation aborted, check .msg file for explanations.>')
     return data
 #---------------------------------------    
 # Defining test parameters:
@@ -91,7 +91,7 @@ if data['completed']:
     ind_stress = fo['Sind'][step2plot].pressure()
   smax= max( max(stress.data), max(ind_stress.data))
   smin= min( min(stress.data), min(ind_stress.data)) 
-  #levels = [(n+1)/float(Nlevels)*smax for n in xrange(Nlevels)]  
+  #levels = [(n+1)/float(Nlevels)*smax for n in range(Nlevels)]  
   levels = np.linspace(smin, smax, Nlevels)
   field_flag = r'$\sigma_{eq}$'
   disp = fo['U'][step2plot]

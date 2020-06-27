@@ -10,7 +10,7 @@ x2,y2,z2 = m2.get_edges()
 
 # Adding some 3D "home made" perspective:
 zx, zy = .3, .3
-for i in xrange(len(x2)):
+for i in range(len(x2)):
   if x2[i] != None:
     x2[i] += zx * z2[i]
     y2[i] += zy * z2[i]

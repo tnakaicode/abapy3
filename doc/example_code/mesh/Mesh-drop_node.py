@@ -5,7 +5,7 @@ m = RegularQuadMesh(N1 = 2, N2 = 2)
 x0, y0, z0 = m.get_edges()
 # Finding the node located at x = y =0.:
 nodes = m.nodes
-for i in xrange(len(nodes.labels)):
+for i in range(len(nodes.labels)):
   if nodes.x[i] == 0. and nodes.y[i] == 0.: node = nodes.labels[i]
 # Removing this node
 m.drop_node(node)

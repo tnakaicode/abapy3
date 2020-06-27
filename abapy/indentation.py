@@ -23,7 +23,7 @@ def ParamInfiniteMesh(Na = 10, Nb=10, l = 1., core_name = 'CAX4', add_shell = Tr
   :param shell_name: element name in shell, should be infinite
   :type shell_name: string  
   '''
-  from mesh import RegularQuadMesh, RegularQuadMesh_like
+  from abapy.mesh import RegularQuadMesh, RegularQuadMesh_like
   from numpy import zeros_like, ones_like, linspace, where
   from copy import copy
   def disp2(x, y, z, labels):
@@ -39,7 +39,7 @@ def ParamInfiniteMesh(Na = 10, Nb=10, l = 1., core_name = 'CAX4', add_shell = Tr
   def conn_permutation(conn): # permutes nodes in connectivity to have a particular orientation. Flips CLOCKWISE.
     from copy import copy
     conn2 = copy(conn)
-    for i in xrange(len(conn)): conn2[i] = conn[i-1]
+    for i in range(len(conn)): conn2[i] = conn[i-1]
     return conn2
   m1 = RegularQuadMesh_like(linspace(0.,l,Na+1),linspace(-l,0.,Na+1), name = core_name, dtf = dtf, dti = dti )
   axis = copy(m1.nodes.sets['left'])
@@ -50,7 +50,7 @@ def ParamInfiniteMesh(Na = 10, Nb=10, l = 1., core_name = 'CAX4', add_shell = Tr
   m1.add_set('top_elem',range( Na * (Na-1)+1, Na**2+1  ))
   m1.nodes.add_set('core',m1.nodes.labels)
   x2 = [l]
-  for i in xrange(Nb): x2.append(x2[-1] * Na/(Na-1))
+  for i in range(Nb): x2.append(x2[-1] * Na/(Na-1))
   y2 = linspace(-l,0,Na+1)
   m2 = RegularQuadMesh_like(x_list = x2, y_list = y2 , name = core_name, dtf = dtf, dti = dti )
   m2.nodes.sets = {}
@@ -59,7 +59,7 @@ def ParamInfiniteMesh(Na = 10, Nb=10, l = 1., core_name = 'CAX4', add_shell = Tr
   m2.add_set('top_elem',range( Nb * (Na-1)+1, Na*Nb+1  ))
   m2.nodes.add_set('core',m2.nodes.labels)
   y3 = [-l]
-  for i in xrange(Nb): y3.append(y3[-1] * Na/(Na-1))
+  for i in range(Nb): y3.append(y3[-1] * Na/(Na-1))
   y3.sort()
   x3 = linspace(0.,l,Na+1)
   m3 = RegularQuadMesh_like(x_list = x3, y_list = y3 , name = core_name, dtf = dtf, dti = dti )
@@ -74,9 +74,9 @@ def ParamInfiniteMesh(Na = 10, Nb=10, l = 1., core_name = 'CAX4', add_shell = Tr
     m5 = RegularQuadMesh_like(x_list = x3, y_list = [2*y3[0], y3[0]] , name = shell_name, dtf = dtf, dti = dti )
     m5.nodes.sets = {}
     m5.add_set('shell',m5.labels)
-    for i in xrange(len(m4.labels)): # permutates 1 time
+    for i in range(len(m4.labels)): # permutates 1 time
       m4.connectivity[i] = conn_permutation(m4.connectivity[i])   
-    for i in xrange(len(m5.labels)): # permutates 2 times
+    for i in range(len(m5.labels)): # permutates 2 times
       m5.connectivity[i] = conn_permutation(m5.connectivity[i])
       m5.connectivity[i] = conn_permutation(m5.connectivity[i]) 
     m2.union(m4)
@@ -177,13 +177,13 @@ def IndentationMesh(Na = 8, Nb = 8, Ns = 4, Nf = 2 , l =1., name = 'CAX4', dtf =
     m = UnitTransition(name)
     m0 = deepcopy(m)
     if N > 1:
-      for i in xrange(1,N):
+      for i in range(1,N):
         m2 = deepcopy(m0)
         m2.nodes.translate(x=i)
         m.union(m2, crit_distance = crit_distance)
     x = m.nodes.x
     y = m.nodes.y
-    for i in xrange(len(x)):
+    for i in range(len(x)):
       x[i] = x[i] / float(N) * l1
       y[i] = l2 * y[i]
     return m
@@ -208,7 +208,7 @@ def IndentationMesh(Na = 8, Nb = 8, Ns = 4, Nf = 2 , l =1., name = 'CAX4', dtf =
     t = (t1-t0)/N
     if k == None: k = t / (1.- t/2.)
     y1 = [radius]
-    for i in xrange(Ns): y1.append(y1[-1] * (k+1))
+    for i in range(Ns): y1.append(y1[-1] * (k+1))
     y1.reverse()
     x1 = linspace(0., 1., N+1)
     mesh = RegularQuadMesh_like(x_list = x1, y_list = y1 , name = name, dtf = dtf, dti = dti )
@@ -233,11 +233,11 @@ def IndentationMesh(Na = 8, Nb = 8, Ns = 4, Nf = 2 , l =1., name = 'CAX4', dtf =
   m1.add_set('core_elements',m1.labels)
   m1.nodes.add_set('core_nodes',m1.nodes.labels)
   x2 = [l]
-  for i in xrange(Nmin): x2.append(x2[-1] * Nmin/(Nmin-1))
+  for i in range(Nmin): x2.append(x2[-1] * Nmin/(Nmin-1))
   y2 = linspace(-l,0,Nb+1)
   m2 = RegularQuadMesh_like(x_list = x2, y_list = y2 , name = name, dtf = dtf, dti = dti )
   y3 = [-l]
-  for i in xrange(Nmin): y3.append(y3[-1] * Nmin/(Nmin-1))
+  for i in range(Nmin): y3.append(y3[-1] * Nmin/(Nmin-1))
   y3.sort()
   x3 = linspace(0.,l,Na+1)
   m3 = RegularQuadMesh_like(x_list = x3, y_list = y3 , name = name, dtf = dtf, dti = dti )
@@ -280,7 +280,7 @@ def IndentationMesh(Na = 8, Nb = 8, Ns = 4, Nf = 2 , l =1., name = 'CAX4', dtf =
   m1.union(shella, crit_distance = crit_distance)
   # Correcting some rounding errors:
   n1 = m1.nodes
-  for i in xrange(len(n1.x)):
+  for i in range(len(n1.x)):
     if n1.x[i] < crit_distance: n1.x[i] = 0.
     if n1.y[i] > -crit_distance: n1.y[i] = 0.
   # Managing sets
@@ -322,7 +322,7 @@ class RigidCone2D:
     :param summit_position: position of the summit in a 2D space.
     :type summit_position: tuple or list containing two floats.
     '''
-    if len(summit_position) != 2: raise Exception, 'summit_position length must be 2, got {0} instead.'.format(len(summit_position))
+    if len(summit_position) != 2: raise Exception ('summit_position length must be 2, got {0} instead.'.format(len(summit_position)))
     self.summit_position = (float(summit_position[0]) , float(summit_position[1]) )
   
   def set_half_angle(self, half_angle = 70.3):
@@ -332,8 +332,8 @@ class RigidCone2D:
     :param half_angle: half_angle in DEGREES.
     :type half_angle: float > 0.
     '''
-    if type(half_angle) not in [float, int, long]:
-      raise Exception, 'half angle must be float, got {0}'.format(type(half_angle))
+    if type(half_angle) not in [float, int]:
+      raise Exception ('half angle must be float, got {0}'.format(type(half_angle)))
     self.half_angle = abs(float(half_angle))
   def set_width(self,width):
     '''
@@ -342,8 +342,8 @@ class RigidCone2D:
     :param width: width
     :type width: float > 0.
     '''
-    if type(width) not in [float, int, long]:
-      raise Exception, 'width must be float, got {0}'.format(type(width))
+    if type(width) not in [float, int]:
+      raise Exception ('width must be float, got {0}'.format(type(width)))
     self.width = abs(float(width))
   
   
@@ -392,7 +392,7 @@ LINE, 0., 0.
     :type disp: ``abapy.postproc.VectorFieldOutput`` instance.
     '''
     from abapy.postproc import VectorFieldOutput
-    if isinstance(disp, VectorFieldOutput) == False: raise Exception, 'disp must be VectorFieldOutput instance, got {0} instead'.format(type(disp))
+    if isinstance(disp, VectorFieldOutput) == False: raise Exception('disp must be VectorFieldOutput instance, got {0} instead'.format(type(disp)))
     sp = self.summit_position
     new_position = ( sp[0] + disp.data1[0], sp[1] + disp.data2[0] )
     self.set_summit_position(new_position)
@@ -443,7 +443,7 @@ class DeformableCone2D:
     :param summit_position: position of the summit in a 2D space.
     :type summit_position: tuple or list containing two floats.
     '''
-    if len(summit_position) != 2: raise Exception, 'summit_position length must be 2, got {0} instead.'.format(len(summit_position))
+    if len(summit_position) != 2: raise Exception('summit_position length must be 2, got {0} instead.'.format(len(summit_position)))
     self.summit_position = (float(summit_position[0]) , float(summit_position[1]) )
   
   def set_half_angle(self, half_angle = 70.3):
@@ -453,8 +453,8 @@ class DeformableCone2D:
     :param half_angle: half_angle in DEGREES.
     :type half_angle: float > 0.
     '''
-    if type(half_angle) not in [float, int, long]:
-      raise Exception, 'half angle must be float, got {0}'.format(type(half_angle))
+    if type(half_angle) not in [float, int]:
+      raise Exception('half angle must be float, got {0}'.format(type(half_angle)))
     self.half_angle = abs(float(half_angle))
   def set_l(self,l):
     '''
@@ -463,8 +463,8 @@ class DeformableCone2D:
     :param l: l
     :type l: float > 0.
     '''
-    if type(l) not in [float, int, long]:
-      raise Exception, 'l must be float, got {0}'.format(type(l))
+    if type(l) not in [float, int]:
+      raise Exception('l must be float, got {0}'.format(type(l)))
     self.l = abs(float(l))
     
   def set_Na(self,Na):
@@ -474,8 +474,8 @@ class DeformableCone2D:
     :param Na: Na
     :type Na: int > 1
     '''
-    if type(Na) not in [int, long]:
-      raise Exception, 'Na must be int > 1, got {0}'.format(type(Na))
+    if type(Na) not in [int]:
+      raise Exception('Na must be int > 1, got {0}'.format(type(Na)))
     self.Na = abs(Na)
     
   def set_Nb(self,Nb):
@@ -485,8 +485,8 @@ class DeformableCone2D:
     :param Nb: Nb
     :type Nb: int > 1
     '''
-    if type(Nb) not in [int, long]:
-      raise Exception, 'Nb must be int > 1, got {0}'.format(type(Nb))
+    if type(Nb) not in [int]:
+      raise Exception('Nb must be int > 1, got {0}'.format(type(Nb)))
     self.Nb = abs(Nb)
   
   def set_Ns(self,Ns):
@@ -496,8 +496,8 @@ class DeformableCone2D:
     :param Ns: Ns
     :type Ns: int > 1
     '''
-    if type(Ns) not in [int, long]:
-      raise Exception, 'Ns must be int > 1, got {0}'.format(type(Ns))
+    if type(Ns) not in [int]:
+      raise Exception('Ns must be int > 1, got {0}'.format(type(Ns)))
     self.Ns = abs(Ns)
   
   def set_Nf(self,Nf):
@@ -507,8 +507,8 @@ class DeformableCone2D:
     :param Nf: Nf
     :type Nf: int > 1
     '''
-    if type(Nf) not in [int, long]:
-      raise Exception, 'Nf must be int > 1, got {0}'.format(type(Nf))
+    if type(Nf) not in [int]:
+      raise Exception('Nf must be int > 1, got {0}'.format(type(Nf)))
     self.Nf = abs(Nf)
   
   def set_mat_label(self,mat_label):
@@ -519,7 +519,7 @@ class DeformableCone2D:
     :type mat_label: string
     '''
     if type(mat_label) is not str:
-      raise Exception, 'mat_label must be string, got {0}'.format(type(mat_label))
+      raise Exception('mat_label must be string, got {0}'.format(type(mat_label)))
     self.mat_label = mat_label
   
   def set_rigid(self, rigid):
@@ -529,7 +529,7 @@ class DeformableCone2D:
     :param rigid: True for rigid, False for deformable (default)
     :type rigid: bool
     '''
-    if type(rigid) is not bool: raise Exception, 'rigid must be bool type, got {0} instead'.format(type(rigid))
+    if type(rigid) is not bool: raise Exception('rigid must be bool type, got {0} instead'.format(type(rigid)))
     self.rigid = rigid
     
   
@@ -660,7 +660,7 @@ class DeformableIndenter2D:
     :param summit_position: position of the summit in a 2D space.
     :type summit_position: tuple or list containing two floats.
     '''
-    if len(summit_position) != 2: raise Exception, 'summit_position length must be 2, got {0} instead.'.format(len(summit_position))
+    if len(summit_position) != 2: raise Exception('summit_position length must be 2, got {0} instead.'.format(len(summit_position)))
     self.summit_position = (float(summit_position[0]) , float(summit_position[1]) )
   
   def set_half_angle(self, half_angle = 70.3):
@@ -670,8 +670,8 @@ class DeformableIndenter2D:
     :param half_angle: half_angle in DEGREES.
     :type half_angle: float > 0.
     '''
-    if type(half_angle) not in [float, int, long]:
-      raise Exception, 'half angle must be float, got {0}'.format(type(half_angle))
+    if type(half_angle) not in [float, int]:
+      raise Exception('half angle must be float, got {0}'.format(type(half_angle)))
     self.half_angle = abs(float(half_angle))
   def set_l(self,l):
     '''
@@ -680,8 +680,8 @@ class DeformableIndenter2D:
     :param l: l
     :type l: float > 0.
     '''
-    if type(l) not in [float, int, long]:
-      raise Exception, 'l must be float, got {0}'.format(type(l))
+    if type(l) not in [float, int]:
+      raise Exception('l must be float, got {0}'.format(type(l)))
     self.l = abs(float(l))
     
   def set_Na(self,Na):
@@ -691,8 +691,8 @@ class DeformableIndenter2D:
     :param Na: Na
     :type Na: int > 1
     '''
-    if type(Na) not in [int, long]:
-      raise Exception, 'Na must be int > 1, got {0}'.format(type(Na))
+    if type(Na) not in [int]:
+      raise Exception('Na must be int > 1, got {0}'.format(type(Na)))
     self.Na = abs(Na)
     
   def set_Nb(self,Nb):
@@ -702,8 +702,8 @@ class DeformableIndenter2D:
     :param Nb: Nb
     :type Nb: int > 1
     '''
-    if type(Nb) not in [int, long]:
-      raise Exception, 'Nb must be int > 1, got {0}'.format(type(Nb))
+    if type(Nb) not in [int]:
+      raise Exception('Nb must be int > 1, got {0}'.format(type(Nb)))
     self.Nb = abs(Nb)
   
   def set_Ns(self,Ns):
@@ -713,8 +713,8 @@ class DeformableIndenter2D:
     :param Ns: Ns
     :type Ns: int > 1
     '''
-    if type(Ns) not in [int, long]:
-      raise Exception, 'Ns must be int > 1, got {0}'.format(type(Ns))
+    if type(Ns) not in [int]:
+      raise Exception('Ns must be int > 1, got {0}'.format(type(Ns)))
     self.Ns = abs(Ns)
   
   def set_Nf(self,Nf):
@@ -724,8 +724,8 @@ class DeformableIndenter2D:
     :param Nf: Nf
     :type Nf: int > 1
     '''
-    if type(Nf) not in [int, long]:
-      raise Exception, 'Nf must be int > 1, got {0}'.format(type(Nf))
+    if type(Nf) not in [int]:
+      raise Exception('Nf must be int > 1, got {0}'.format(type(Nf)))
     self.Nf = abs(Nf)
   
   def set_mat_label(self,mat_label):
@@ -736,7 +736,7 @@ class DeformableIndenter2D:
     :type mat_label: string
     '''
     if type(mat_label) is not str:
-      raise Exception, 'mat_label must be string, got {0}'.format(type(mat_label))
+      raise Exception('mat_label must be string, got {0}'.format(type(mat_label)))
     self.mat_label = mat_label
   
   def set_rigid(self, rigid):
@@ -746,7 +746,7 @@ class DeformableIndenter2D:
     :param rigid: True for rigid, False for deformable (default)
     :type rigid: bool
     '''
-    if type(rigid) is not bool: raise Exception, 'rigid must be bool type, got {0} instead'.format(type(rigid))
+    if type(rigid) is not bool: raise Exception('rigid must be bool type, got {0} instead'.format(type(rigid)))
     self.rigid = rigid
     
   
@@ -905,7 +905,7 @@ class DeformableCone3D:
     :param summit_position: position of the summit in a 2D space.
     :type summit_position: tuple or list containing two floats.
     '''
-    if len(summit_position) != 2: raise Exception, 'summit_position length must be 2, got {0} instead.'.format(len(summit_position))
+    if len(summit_position) != 2: raise Exception('summit_position length must be 2, got {0} instead.'.format(len(summit_position)))
     self.summit_position = (float(summit_position[0]) , float(summit_position[1]) )
   
   def set_half_angle(self, half_angle = 70.3):
@@ -915,8 +915,8 @@ class DeformableCone3D:
     :param half_angle: half_angle in DEGREES.
     :type half_angle: float > 0.
     '''
-    if type(half_angle) not in [float, int, long]:
-      raise Exception, 'half angle must be float, got {0}'.format(type(half_angle))
+    if type(half_angle) not in [float, int]:
+      raise Exception('half angle must be float, got {0}'.format(type(half_angle)))
     self.half_angle = abs(float(half_angle))
   def set_l(self,l):
     '''
@@ -925,8 +925,8 @@ class DeformableCone3D:
     :param l: l
     :type l: float > 0.
     '''
-    if type(l) not in [float, int, long]:
-      raise Exception, 'l must be float, got {0}'.format(type(l))
+    if type(l) not in [float, int]:
+      raise Exception('l must be float, got {0}'.format(type(l)))
     self.l = abs(float(l))
     
   def set_Na(self,Na):
@@ -936,8 +936,8 @@ class DeformableCone3D:
     :param Na: Na
     :type Na: int > 1
     '''
-    if type(Na) not in [int, long]:
-      raise Exception, 'Na must be int > 1, got {0}'.format(type(Na))
+    if type(Na) not in [int]:
+      raise Exception('Na must be int > 1, got {0}'.format(type(Na)))
     self.Na = abs(Na)
     
   def set_Nb(self,Nb):
@@ -947,8 +947,8 @@ class DeformableCone3D:
     :param Nb: Nb
     :type Nb: int > 1
     '''
-    if type(Nb) not in [int, long]:
-      raise Exception, 'Nb must be int > 1, got {0}'.format(type(Nb))
+    if type(Nb) not in [int]:
+      raise Exception('Nb must be int > 1, got {0}'.format(type(Nb)))
     self.Nb = abs(Nb)
   
   def set_Ns(self,Ns):
@@ -958,8 +958,8 @@ class DeformableCone3D:
     :param Ns: Ns
     :type Ns: int > 1
     '''
-    if type(Ns) not in [int, long]:
-      raise Exception, 'Ns must be int > 1, got {0}'.format(type(Ns))
+    if type(Ns) not in [int]:
+      raise Exception('Ns must be int > 1, got {0}'.format(type(Ns)))
     self.Ns = abs(Ns)
   
   def set_Nf(self,Nf):
@@ -969,8 +969,8 @@ class DeformableCone3D:
     :param Nf: Nf
     :type Nf: int > 1
     '''
-    if type(Nf) not in [int, long]:
-      raise Exception, 'Nf must be int > 1, got {0}'.format(type(Nf))
+    if type(Nf) not in [int]:
+      raise Exception('Nf must be int > 1, got {0}'.format(type(Nf)))
     self.Nf = abs(Nf)
   
   def set_N(self,N):
@@ -980,8 +980,8 @@ class DeformableCone3D:
     :param N: N
     :type N: int > 1
     '''
-    if type(N) not in [int, long]:
-      raise Exception, 'N must be int > 0, got {0}'.format(type(N))
+    if type(N) not in [int]:
+      raise Exception('N must be int > 0, got {0}'.format(type(N)))
     self.N = abs(N)
   
   def set_sweep_angle(self,sweep_angle):
@@ -992,7 +992,7 @@ class DeformableCone3D:
     :type sweep_angle: int > 1
     '''
     if type(sweep_angle) != float:
-      raise Exception, 'sweep_angle must be float, got {0}'.format(type(sweep_angle))
+      raise Exception('sweep_angle must be float, got {0}'.format(type(sweep_angle)))
     self.sweep_angle = sweep_angle
   
   def set_mat_label(self,mat_label):
@@ -1003,7 +1003,7 @@ class DeformableCone3D:
     :type mat_label: string
     '''
     if type(mat_label) is not str:
-      raise Exception, 'mat_label must be string, got {0}'.format(type(mat_label))
+      raise Exception('mat_label must be string, got {0}'.format(type(mat_label)))
     self.mat_label = mat_label
   
   def set_rigid(self, rigid):
@@ -1013,7 +1013,7 @@ class DeformableCone3D:
     :param rigid: True for rigid, False for deformable (default)
     :type rigid: bool
     '''
-    if type(rigid) is not bool: raise Exception, 'rigid must be bool type, got {0} instead'.format(type(rigid))
+    if type(rigid) is not bool: raise Exception('rigid must be bool type, got {0} instead'.format(type(rigid)))
     self.rigid = rigid
   
   def set_pyramid(self, pyramid):
@@ -1023,7 +1023,7 @@ class DeformableCone3D:
     :param pyramid: True for pyramid, False for revolution (default).
     :type pyramid: bool
     '''
-    if type(pyramid) is not bool: raise Exception, 'pyramid must be bool type, got {0} instead'.format(type(pyramid))
+    if type(pyramid) is not bool: raise Exception('pyramid must be bool type, got {0} instead'.format(type(pyramid)))
     self.pyramid = pyramid  
   
   def equivalent_half_angle(self):
@@ -1194,7 +1194,7 @@ class Step(object):
     :param name: step name.
     :type name: string
     '''
-    if type(name) is not str: raise Exception, 'name must be str, got {0}'.format(type(anme))
+    if type(name) is not str: raise Exception('name must be str, got {0}'.format(type(anme)))
     self.name = name
   def set_displacement(self,disp):
     '''
@@ -1203,7 +1203,7 @@ class Step(object):
     :param disp: displacement.
     :type disp: float > 0.
     '''
-    if type(disp) not in [float, int, long]: raise Exception, 'disp must be float, got {0}'.format(type(disp))
+    if type(disp) not in [float, int]: raise Exception('disp must be float, got {0}'.format(type(disp)))
     self.disp = float(disp)
   def set_nframes(self, nframes):
     '''
@@ -1212,7 +1212,7 @@ class Step(object):
     :param nframes: frame number.
     :type nframes: int
     '''
-    if type(nframes) not in [int, long]: raise Exception, 'disp must be int > 0, got {0}'.format(type(nframes))
+    if type(nframes) not in [int]: raise Exception('disp must be int > 0, got {0}'.format(type(nframes)))
     self.nframes = nframes
   def set_nlgeom(self, nlgeom):
     '''
@@ -1221,7 +1221,7 @@ class Step(object):
     :param nlgeom: nlgeom state.
     :type nlgeom: boolean
     '''
-    if type(nlgeom) is not bool: raise Exception, 'nlgeom must be boolean, got {0}'.format(type(nlgeom))
+    if type(nlgeom) is not bool: raise Exception('nlgeom must be boolean, got {0}'.format(type(nlgeom)))
     self.nlgeom = nlgeom
   def set_fieldOutputFreq(self, freq):
     '''
@@ -1230,7 +1230,7 @@ class Step(object):
     :param freq: field output frequency
     :type freq: int
     '''
-    if type(freq) not in [int, long]: raise Exception, 'freq must be int, got {0}'.format(type(freq))
+    if type(freq) not in [int]: raise Exception('freq must be int, got {0}'.format(type(freq)))
     self.fieldOutputFreq = freq
     
   def set_boundaries_3D(self, boundaries_3D):
@@ -1240,7 +1240,7 @@ class Step(object):
     :param boundaries_3D: 3D or 2D boundary conditions. If 3D is True, then boundary conditions will be applied to the node sets ``front`` and ``back``.
   :type boundaries_3D: boolean 
     '''
-    if type(boundaries_3D) != bool : raise Exception, 'boundaries_3D must be bool, got {0}'.format(type(boundaries_3D))
+    if type(boundaries_3D) != bool : raise Exception('boundaries_3D must be bool, got {0}'.format(type(boundaries_3D)))
     self.boundaries_3D = boundaries_3D
     
   def set_full_3D(self, full_3D):
@@ -1250,7 +1250,7 @@ class Step(object):
     :param full_3D: set to True if the model is a complete 3D model without symmetries and then does not need side boundaries.
   :type full_3D: boolean 
     '''
-    if type(full_3D) != bool : raise Exception, 'full_3D must be bool, got {0}'.format(type(full_3D))
+    if type(full_3D) != bool : raise Exception('full_3D must be bool, got {0}'.format(type(full_3D)))
     self.full_3D = full_3D  
   
   def set_rigid_indenter_3D(self, rigid_indenter_3D):
@@ -1260,7 +1260,7 @@ class Step(object):
     :param rigid_indenter_3D: Set to True if a 3D indenter is rigid  
   :type rigid_indenter_3D: boolean
     '''
-    if type(rigid_indenter_3D) != bool : raise Exception, 'rigid_indenter_3D must be bool, got {0}'.format(type(rigid_indenter_3D))
+    if type(rigid_indenter_3D) != bool : raise Exception('rigid_indenter_3D must be bool, got {0}'.format(type(rigid_indenter_3D)))
     self.rigid_indenter_3D = rigid_indenter_3D
     
   def set_nodeFieldOutput(self, nodeOutput):
@@ -1274,7 +1274,7 @@ class Step(object):
       self.nodeFieldOutput = [nodeOutput]
     else:
       for no in nodeOutput:
-        if type(no) is not str: raise Exception, 'node outputs must be strings, got {0}'.format(type(no))
+        if type(no) is not str: raise Exception('node outputs must be strings, got {0}'.format(type(no)))
       self.nodeFieldOutput = nodeOutput
   def set_elemFieldOutput(self, elemOutput):
     '''
@@ -1287,7 +1287,7 @@ class Step(object):
       self.elemFieldOutput = [nodeOutput]
     else:
       for eo in elemOutput:
-        if type(eo) is not str: raise Exception, 'element outputs must be strings, got {0}'.format(type(no))
+        if type(eo) is not str: raise Exception('element outputs must be strings, got {0}'.format(type(no)))
       self.elemFieldOutput = elemOutput
   def dump2inp(self):
     '''
@@ -1557,7 +1557,7 @@ class Manager:
     :param workdir: relative or absolute path to workdir where simulations are run.
     :type workdir: string
     '''
-    if type(workdir) is not str: raise Exception, 'workdir must be string, got {0} instead.'.format(type(workdir))
+    if type(workdir) is not str: raise Exception('workdir must be string, got {0} instead.'.format(type(workdir)))
     self.workdir =  workdir
   def set_abqlauncher(self,abqlauncher):
     '''
@@ -1567,7 +1567,7 @@ class Manager:
     
     .. note: aliases may not work because they are often limited to interactive shells.
     '''
-    if type(abqlauncher) is not str: raise Exception, 'workdir must be string, got {0} instead.'.format(type(abqlauncher))
+    if type(abqlauncher) is not str: raise Exception('workdir must be string, got {0} instead.'.format(type(abqlauncher)))
     self.abqlauncher =  abqlauncher
   def set_samplemesh(self, samplemesh):
     '''
@@ -1577,7 +1577,7 @@ class Manager:
     :type samplemesh: ``abapy.mesh.Mesh`` instance
     '''
     from abapy.mesh import Mesh
-    if isinstance(samplemesh, Mesh) == False: raise Exception, 'samplemesh must be Mesh instance, got {0} instead.'.format(type(samplemesh))
+    if isinstance(samplemesh, Mesh) == False: raise Exception('samplemesh must be Mesh instance, got {0} instead.'.format(type(samplemesh)))
     self.samplemesh = samplemesh
   def set_indenter(self, indenter):
     '''
@@ -1624,7 +1624,7 @@ class Manager:
     :type steps: list ``of Steps`` instances
     '''
     for step in steps:
-      if isinstance(step, Step) == False: raise Exception, 'step must be Step instance, got {0} instead.'.format(type(step))
+      if isinstance(step, Step) == False: raise Exception('step must be Step instance, got {0} instead.'.format(type(step)))
     self.steps = steps
   
   def set_is_3D(self, is_3D):
@@ -1643,7 +1643,7 @@ class Manager:
     :param simname: simulation name that is used to name simulation files.
     :type simname: string
     '''
-    if type(simname) is not str: raise Exception, 'simname must be string, got {0} instead.'.format(type(simname))
+    if type(simname) is not str: raise Exception('simname must be string, got {0} instead.'.format(type(simname)))
     self.simname = simname
   def set_files2delete(self,files2delete):
     '''
@@ -1653,7 +1653,7 @@ class Manager:
     :type files2delete: list of strings.
     '''
     for f in files2delete:
-      if type(f) is not str: raise Exception, 'file must be string, got {0} instead'.format(type(f))
+      if type(f) is not str: raise Exception('file must be string, got {0} instead'.format(type(f)))
     self.files2delete = files2delete
   def make_inp(self):
     '''
@@ -1661,7 +1661,7 @@ class Manager:
     '''
     out = MakeInp(sample_mesh = self.samplemesh, indenter = self.indenter, sample_mat = self.samplemat, indenter_mat = self.indentermat, friction = self.friction, steps = self.steps, is_3D = self.is_3D)
     pattern = '{0}{1}.inp'.format(self.workdir,self.simname )
-    print '< Creating INP file: {0} >'.format(pattern)
+    print ('< Creating INP file: {0} >'.format(pattern))
     f = open(pattern, 'w')
     f.write(out)
     f.close()
@@ -1672,25 +1672,25 @@ class Manager:
     
     import os, time, subprocess
     t0 = time.time()
-    print '< Running simulation {0} in Abaqus>'.format(self.simname)  
+    print ('< Running simulation {0} in Abaqus>'.format(self.simname))  
     command = '{0} job={1} input={1}.inp interactive'.format(self.abqlauncher, self.simname) 
-    print command
+    print (command)
     p = subprocess.Popen(command, cwd = self.workdir, shell=True, stdout = subprocess.PIPE)
          
     # Case for using UMAT subroutines
     from abapy.materials import SiDoLo
-    print '============='
-    print isinstance(self.samplemat,SiDoLo)
-    print '============='
+    print ('=============')
+    print (isinstance(self.samplemat,SiDoLo))
+    print ('=============')
     if isinstance(self.samplemat,SiDoLo): 
       self.abqlauncher = '/vol/app/Abaqus-dev64/6.10-1/exec/abq6101.exe'
       command = '{0} job={1} input={1}.inp user={2} interactive'.format(self.abqlauncher, self.simname, self.samplemat.umat[0])
-      print command
+      print (command)
       p = subprocess.Popen(command, cwd = self.workdir, shell=True, stdout = subprocess.PIPE)
     trash = p.communicate()
     t1 = time.time()
     self.duration = t1 - t0
-    print '< Ran {0} in Abaqus: duration {1:.2f}s>'.format(self.simname, t1 - t0)   
+    print ('< Ran {0} in Abaqus: duration {1:.2f}s>'.format(self.simname, t1 - t0))   
   
   def __repr__(self): 
     return '<abapy.indentation.Manager instance>'  
@@ -1700,7 +1700,7 @@ class Manager:
     Erases all files with types declared in files2delete in the work directory with the name *simname*.
     '''
     import os
-    print '< Removing temporary files>'
+    print ('< Removing temporary files>')
     pattern = 'rm -f {0}{1}.{2}'
     for f in self.files2delete:
       os.system( pattern.format(self.workdir, self.simname, f) )
@@ -1712,7 +1712,7 @@ class Manager:
     :param abqpostproc: link to the abaqus post processing script.
     :type abqpostproc: string
     '''
-    if type(abqpostproc) is not str: raise Exception, 'abqpostproc must be string'
+    if type(abqpostproc) is not str: raise Exception('abqpostproc must be string')
     self.abqpostproc = abqpostproc
   
   def run_abqpostproc(self):
@@ -1725,7 +1725,7 @@ class Manager:
     p = subprocess.Popen( [self.abqlauncher,  'viewer', 'noGUI={0}'.format(self.abqpostproc)], cwd = self.workdir,stdout = subprocess.PIPE )
     trash = p.communicate()
     t1 = time.time()
-    print '< Post Processed {0} in Abaqus: duration {1:.2f}s>'.format(self.simname, t1 - t0)   
+    print ('< Post Processed {0} in Abaqus: duration {1:.2f}s>'.format(self.simname, t1 - t0))   
     
     
   def set_pypostprocfunc(self, func):
@@ -1749,7 +1749,7 @@ class Manager:
     abqdata = load(self.workdir + self.simname + '.pckl')
     data = self.pypostprocfunc(abqdata)
     t1 = time.time()
-    print '< Post Processed {0} in Python: duration {1:.2f}s>'.format(self.simname, t1 - t0)  
+    print ('< Post Processed {0} in Python: duration {1:.2f}s>'.format(self.simname, t1 - t0))  
     return data 
     
 class ContactData:
@@ -1803,7 +1803,7 @@ class ContactData:
     
     '''
     from array import array
-    if type(coor1) in [float, int, long]:
+    if type(coor1) in [float, int]:
       self.coor1.append(float(coor1))
       self.coor2.append(float(coor2))
       self.altitude.append(float(altitude))
@@ -1813,15 +1813,15 @@ class ContactData:
       if hasattr(coor2, '__contains__'):
         coor2 = array(self.dtf, coor2)
       else: 
-        coor2 = array(self.dtf, [coor2 for i in xrange(len(coor1))])
+        coor2 = array(self.dtf, [coor2 for i in range(len(coor1))])
       if hasattr(altitude, '__contains__'):
         altitude = array(self.dtf, altitude)
       else: 
-        altitude = array(self.dtf, [altitude for i in xrange(len(coor1))])
+        altitude = array(self.dtf, [altitude for i in range(len(coor1))])
       if hasattr(pressure, '__contains__'):
         pressure = array(self.dtf, pressure)
       else: 
-        pressure = array(self.dtf, [pressure for i in xrange(len(coor1))])
+        pressure = array(self.dtf, [pressure for i in range(len(coor1))])
       self.coor1 += coor1
       self.coor2 += coor2
       self.altitude += altitude
@@ -1848,11 +1848,11 @@ class ContactData:
     from scipy.spatial import Delaunay
     from numpy import sin, cos, pi, array, append, delete
     from copy import copy
-    from mesh import get_neighbors
+    from abapy.mesh import get_neighbors
     c1, c2, alt, press = array([]),array([]),array([]),array([])
     if self.is_3D == False:
       delta = 2 *pi / float(axi_repeat)
-      for i in xrange(axi_repeat):
+      for i in range(axi_repeat):
         c1 = append( c1, cos(delta * i) * ( array(self.coor1) ))
         c2 = append( c2, sin(delta * i) * ( array(self.coor1) ))
         alt = append(alt, self.altitude)
@@ -1868,7 +1868,7 @@ class ContactData:
       alt_0 = append(alt_0, alt_0)
       press_0 = append(press_0, press_0) 
       delta = 2 * pi / self.repeat
-      for i in xrange(self.repeat):
+      for i in range(self.repeat):
         c1 = append(c1, cos(delta * i) * c1_0 - sin(delta * i ) * c2_0)
         c2 = append(c2, cos(delta * i) * c2_0 + sin(delta * i ) * c1_0)
         alt = append(alt, alt_0)
@@ -1984,7 +1984,7 @@ class ContactData:
       def triangle_area(points,conn):
         x, y = points[:,0], points[:,1]
         area = 0. * np.arange(len(conn))
-        for i in xrange(len(conn)):
+        for i in range(len(conn)):
           tri = conn[i]
           xt = x[tri]
           yt = y[tri]
@@ -1996,7 +1996,7 @@ class ContactData:
       # Computing numerical 2D integration
       def triangle_integration(conn, areas, field, coeffs = [0., 1./3., 2./3., 1.]):
         out = 0.
-        for i in xrange(len(conn)):
+        for i in range(len(conn)):
           tri = conn[i]
           area = areas[i]
           f = field[tri].sum()
@@ -2006,7 +2006,7 @@ class ContactData:
       # Computing the area of all triangle where all summits have a non zero pressure
       def triangle_non_zero(conn, areas, field):
         out = 0.
-        for i in xrange(len(conn)):
+        for i in range(len(conn)):
           tri = conn[i]
           area = areas[i]
           f = field[tri]
@@ -2195,17 +2195,17 @@ def Get_ContactData(odb, instance, node_set):
   n_nodes = len(keys) # Number of contact nodes
   n_steps = len(Coor1[0]) # Number of available steps
   out = []
-  for st in xrange(n_steps):
+  for st in range(n_steps):
     out.append([])
     out_step = out[-1]
-    for fr in xrange(len(Coor1[0][st])): # fr in the indice of the frame
+    for fr in range(len(Coor1[0][st])): # fr in the indice of the frame
       out_step.append(ContactData(is_3D = is_3D))
       cd = out_step[-1]
       coor1_temp = array('d',[])
       coor2_temp = array('d',[])
       altitude_temp = array('d',[])
       pressure_temp = array('d',[])
-      for n in xrange(n_nodes):
+      for n in range(n_nodes):
         coor1_temp.append(Coor1[n][st][fr])
         if is_3D: 
           coor2_temp.append(Coor2[n][st][fr])

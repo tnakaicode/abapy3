@@ -57,7 +57,7 @@ def read_file(path, ncol = 2, separator = None):
     if line[0] != "#":
       ldata = []
       words = line.split()
-      for i in xrange(ncol):
+      for i in range(ncol):
         ldata.append(float(words[i]))
       out.append(ldata)
   return np.array(out).transpose()

@@ -30,7 +30,7 @@ levels = linspace(0., 10., 20)
 mesh = RegularQuadMesh(N1 = N1, N2 = N2, l1 = l1, l2 = l2)
 # Finding the node located at x = y =0.:
 nodes = mesh.nodes
-for i in xrange(len(nodes.labels)):
+for i in range(len(nodes.labels)):
   if nodes.x[i] == 0. and nodes.y[i] == 0.: node = nodes.labels[i]
 mesh.drop_node(node)
 tensorField = mesh.nodes.eval_tensorFunction(boussinesq)

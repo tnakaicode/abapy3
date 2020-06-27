@@ -5,3 +5,15 @@ doc/_build/*
 *.pdf
 *.rpy
 *.odb
+
+.vscode/*
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+
+
+# Build
+build/*
+dist/*
+*.egg-info/*

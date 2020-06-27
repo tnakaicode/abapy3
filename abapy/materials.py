@@ -43,13 +43,13 @@ class VonMises(object):
     self.labels=labels
     l = len(labels)
     E = float_arg(E)
-    if len(E) != l: raise Exception, 'Parameters must all have the same length'
+    if len(E) != l: raise Exception ('Parameters must all have the same length')
     self.E=array(dtf,E)
     nu = float_arg(nu)
-    if len(nu) != l: raise Exception, 'Parameters must all have the same length'
+    if len(nu) != l: raise Exception ('Parameters must all have the same length') 
     self.nu=array(dtf,nu)  
     sy = float_arg(sy)
-    if len(sy) != l: raise Exception, 'Parameters must all have the same length'
+    if len(sy) != l: raise Exception ('Parameters must all have the same length')
     self.sy=array(dtf,sy)
   def __repr__(self):
     return '<VonMises instance: {0} samples>'.format(len(self.E))
@@ -61,7 +61,7 @@ class VonMises(object):
     '''
     out = '** {0}\n'.format(self.__repr__())
     pattern = '*MATERIAL, NAME={0}\n*ELASTIC\n  {1}, {2}\n*PLASTIC\n  {3}, 0.\n'
-    for i in xrange(len(self.E)):
+    for i in range(len(self.E)):
       out += pattern.format(self.labels[i],self.E[i],self.nu[i],self.sy[i])
     return out[0:-1]
 
@@ -83,10 +83,10 @@ class Elastic(object):
     self.labels=labels
     l = len(labels)
     E = float_arg(E)
-    if len(E) != l: raise Exception, 'Parameters must all have the same length'
+    if len(E) != l: raise Exception('Parameters must all have the same length')
     self.E=array(dtf,E)
     nu = float_arg(nu)
-    if len(nu) != l: raise Exception, 'Parameters must all have the same length'
+    if len(nu) != l: raise Exception('Parameters must all have the same length')
     self.nu=array(dtf,nu)  
   def __repr__(self):
     return '<Elastic instance: {0} samples>'.format(len(self.E))
@@ -98,7 +98,7 @@ class Elastic(object):
     '''
     out = '** {0}\n'.format(self.__repr__())
     pattern = '*MATERIAL, NAME={0}\n*ELASTIC\n  {1}, {2}\n'
-    for i in xrange(len(self.E)):
+    for i in range(len(self.E)):
       out += pattern.format(self.labels[i],self.E[i],self.nu[i])
     return out[0:-1]
 
@@ -133,23 +133,23 @@ class DruckerPrager(object):
     self.labels=labels
     l = len(labels)
     E = float_arg(E)
-    if len(E) != l: raise Exception, 'Parameters must all have the same length'
+    if len(E) != l: raise Exception('Parameters must all have the same length')
     self.E=array(dtf,E)
     nu = float_arg(nu)
-    if len(nu) != l: raise Exception, 'Parameters must all have the same length'
+    if len(nu) != l: raise Exception('Parameters must all have the same length')
     self.nu=array(dtf,nu)  
     sy = float_arg(sy)
-    if len(sy) != l: raise Exception, 'Parameters must all have the same length'
+    if len(sy) != l: raise Exception('Parameters must all have the same length')
     self.sy=array(dtf,sy)
     beta = float_arg(beta)
-    if len(beta) != l: raise Exception, 'Parameters must all have the same length'
+    if len(beta) != l: raise Exception('Parameters must all have the same length')
     self.beta = array(dtf,beta)
     if psi == None: psi = beta
     psi = float_arg(psi)
-    if len(psi) != l: raise Exception, 'Parameters must all have the same length'
+    if len(psi) != l: raise Exception('Parameters must all have the same length')
     self.psi = array(dtf,psi)
     k = float_arg(k)
-    if len(k) != l: raise Exception, 'Parameters must all have the same length'
+    if len(k) != l: raise Exception('Parameters must all have the same length')
     self.k = array(dtf,k)
   
   def __repr__(self):
@@ -163,7 +163,7 @@ class DruckerPrager(object):
     '''
     out = '** {0}\n'.format(self.__repr__())
     pattern = '*MATERIAL, NAME={0}\n*ELASTIC\n  {1}, {2}\n*DRUCKER PRAGER\n  {3}, {4}, {5}\n*DRUCKER PRAGER HARDENING\n  {6}, 0.\n'
-    for i in xrange(len(self.E)):
+    for i in range(len(self.E)):
       out += pattern.format(
         self.labels[i],
         self.E[i],
@@ -216,16 +216,16 @@ class Hollomon(object):
     self.labels=labels
     l = len(labels)
     E = float_arg(E)
-    if len(E) != l: raise Exception, 'Parameters must all have the same length'
+    if len(E) != l: raise Exception('Parameters must all have the same length')
     self.E=array(dtf,E)
     nu = float_arg(nu)
-    if len(nu) != l: raise Exception, 'Parameters must all have the same length'
+    if len(nu) != l: raise Exception('Parameters must all have the same length')
     self.nu=array(dtf,nu)  
     sy = float_arg(sy)
-    if len(sy) != l: raise Exception, 'Parameters must all have the same length'
+    if len(sy) != l: raise Exception('Parameters must all have the same length')
     self.sy=array(dtf,sy)
     n = float_arg(n)
-    if len(n) != l: raise Exception, 'Parameters must all have the same length'
+    if len(n) != l: raise Exception('Parameters must all have the same length')
     self.n=array(dtf,n)
     self.kind = kind
   def __repr__(self):
@@ -271,14 +271,14 @@ class Hollomon(object):
     '''
     out = '** {0}\n'.format(self.__repr__())
     pattern = '*MATERIAL, NAME={0}\n*ELASTIC\n  {1}, {2}\n*PLASTIC\n{3}\n'
-    for i in xrange(len(self.E)):
+    for i in range(len(self.E)):
       table = self.get_table(position = i, eps_max = eps_max, N = N)
       sigma = table[:,1]
       eps = table[:,0]
       #eps_p = eps - eps[0]
-      eps_p = [eps[j] - sigma[j] / self.E[i] for j in xrange(len(eps))]
+      eps_p = [eps[j] - sigma[j] / self.E[i] for j in range(len(eps))]
       data = ''
-      for j in xrange(len(table)):
+      for j in range(len(table)):
         data += '  {0}, {1}\n'.format(sigma[j], eps_p[j])
       out += pattern.format(self.labels[i],self.E[i],self.nu[i],data[0:-1])
     return out[0:-1]
@@ -312,19 +312,19 @@ class Bilinear(object):
     self.labels=labels
     l = len(labels)
     E = float_arg(E)
-    if len(E) != l: raise Exception, 'Parameters must all have the same length'
+    if len(E) != l: raise Exception('Parameters must all have the same length')
     self.E=array(dtf,E)
     nu = float_arg(nu)
-    if len(nu) != l: raise Exception, 'Parameters must all have the same length'
+    if len(nu) != l: raise Exception('Parameters must all have the same length')
     self.nu=array(dtf,nu)  
     Ssat = float_arg(Ssat)
-    if len(Ssat) != l: raise Exception, 'Parameters must all have the same length'
+    if len(Ssat) != l: raise Exception('Parameters must all have the same length')
     self.Ssat=array(dtf,Ssat)
     n = float_arg(n)
-    if len(n) != l: raise Exception, 'Parameters must all have the same length'
+    if len(n) != l: raise Exception('Parameters must all have the same length')
     self.n=array(dtf,n)
     sy = float_arg(sy)
-    if len(sy) != l: raise Exception, 'Parameters must all have the same length'
+    if len(sy) != l: raise Exception('Parameters must all have the same length')
     self.sy=array(dtf,sy)    
     
   def __repr__(self):
@@ -339,7 +339,7 @@ class Bilinear(object):
     out = '** {0}\n'.format(self.__repr__())
     pattern = '*MATERIAL, NAME={0}\n*ELASTIC\n  {1}, {2}\n*PLASTIC\n  {3}, 0.\n {4}, {5} \n'
     Eps_p_sat=[]
-    for i in xrange(len(self.E)):
+    for i in range(len(self.E)):
         Eps_p_sat.append(abs(self.Ssat[i] - self.sy[i])/self.n[i])
         if self.sy[i] > self.Ssat[i]:
           self.sy[i] = self.Ssat[i]   
@@ -377,7 +377,7 @@ class SiDoLo(object):
     self.dump2coe()
     out = '** {0}\n'.format(self.__repr__()) # Initialisation
     pattern = '*MATERIAL, NAME={0}\n*USER MATERIAL, CONSTANTS=2\n  {1}, {2}\n*DEPVAR\n  {3}\n'
-    for i in xrange(len(self.labels)):
+    for i in range(len(self.labels)):
       params  = self.dictionary[i]['Parameters']
       varint  = self.dictionary[i]['Variables']
       Lvarint = len(varint)
@@ -391,7 +391,7 @@ class SiDoLo(object):
     :rtype: string
     '''
     from collections import OrderedDict
-    for i in xrange(len(self.labels)):
+    for i in range(len(self.labels)):
       # Definition des sous-dictionnaires
       coeffs  = self.dictionary[i]['Coefficients']
       varint  = self.dictionary[i]['Variables']
@@ -444,19 +444,19 @@ class Ludwig(object):
     self.labels=labels
     l = len(labels)
     E = float_arg(E)
-    if len(E) != l: raise Exception, 'Parameters must all have the same length'
+    if len(E) != l: raise Exception('Parameters must all have the same length')
     self.E=array(dtf,E)
     nu = float_arg(nu)
-    if len(nu) != l: raise Exception, 'Parameters must all have the same length'
+    if len(nu) != l: raise Exception('Parameters must all have the same length')
     self.nu=array(dtf,nu)  
     K = float_arg(K)
-    if len(K) != l: raise Exception, 'Parameters must all have the same length'
+    if len(K) != l: raise Exception('Parameters must all have the same length')
     self.K=array(dtf,K)
     n = float_arg(n)
-    if len(n) != l: raise Exception, 'Parameters must all have the same length'
+    if len(n) != l: raise Exception('Parameters must all have the same length')
     self.n=array(dtf,n)
     sy = float_arg(sy)
-    if len(sy) != l: raise Exception, 'Parameters must all have the same length'
+    if len(sy) != l: raise Exception('Parameters must all have the same length')
     self.sy=array(dtf,sy)
   def __repr__(self):
     return '<Hollomon instance: {0} samples>'.format(len(self.E))
@@ -498,13 +498,13 @@ class Ludwig(object):
     '''
     out = '** {0}\n'.format(self.__repr__())
     pattern = '*MATERIAL, NAME={0}\n*ELASTIC\n  {1}, {2}\n*PLASTIC\n{3}\n'
-    for i in xrange(len(self.E)):
+    for i in range(len(self.E)):
       table = self.get_table(position = i, eps_max = eps_max, N = N)
       sigma = table[:,1]
       eps_p = table[:,0]
-      #eps = [eps_p[j] + sigma[j] / self.E[i] for j in xrange(len(eps_p))]
+      #eps = [eps_p[j] + sigma[j] / self.E[i] for j in range(len(eps_p))]
       data = ''
-      for j in xrange(len(table)):
+      for j in range(len(table)):
         data += '  {0}, {1}\n'.format(sigma[j], eps_p[j])
       out += pattern.format(self.labels[i],self.E[i],self.nu[i],data[0:-1])
     return out[0:-1]
