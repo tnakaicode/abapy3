@@ -10,14 +10,15 @@ execfile('settings.py')
 
 # creating some shortcuts
 d = db_manager     # database manager
-c = db_manager.cls # useful to call Simulation attributs 
+c = db_manager.cls  # useful to call Simulation attributs
 
 # Load simulations
-simus = d.query().filter(c.completed == True).filter(c.sample_mat_type == 'druckerprager').all()
+simus = d.query().filter(c.completed == True).filter(
+    c.sample_mat_type == 'druckerprager').all()
 
-#--------------------------
+# --------------------------
 # PLOTING CONSTRAINT FACTOR
-#--------------------------
+# --------------------------
 
 # Getting primary data
 sy = np.array([s.sample_mat_args['yield_stress'] for s in simus])
@@ -30,14 +31,14 @@ phi = np.array([s.indenter_half_angle for s in simus])
 wirr_wtot = np.array([s.irreversible_work_ratio for s in simus])
 
 # Building secondary data
-ey = sy/E
-H = C/Ac
-hch = Ac / (np.pi*np.tan(np.radians(phi))**2)
+ey = sy / E
+H = C / Ac
+hch = Ac / (np.pi * np.tan(np.radians(phi))**2)
 
 # Building Delaunay triangular connectivity
 x = ey
 y = beta
-points = np.array([x,y]).transpose() 
+points = np.array([x, y]).transpose()
 conn = Delaunay(points).vertices
 
 # For checking purpose, let's plot the generated mesh. You may see that the mesh is self improving has the simulations complete (this is quite nice).
@@ -79,12 +80,12 @@ plt.title(title)
 plt.grid()
 plt.xlabel(xlabel)
 plt.ylabel(ylabel)
-#plt.triplot(X,Y,conn)
+# plt.triplot(X,Y,conn)
 #plt.tricontourf(X,Y,conn,Z, Zlevels)
-cont = plt.tricontour(X,Y,conn,Z, Zlevels, colors = 'blue')
-plt.clabel(cont, fmt = zlabel, fontsize=9, inline=1)
-cont = plt.tricontour(X,Y,conn,Z2, Z2levels, colors = 'red')
-plt.clabel(cont, fmt = z2label, fontsize=9, inline=1)
+cont = plt.tricontour(X, Y, conn, Z, Zlevels, colors='blue')
+plt.clabel(cont, fmt=zlabel, fontsize=9, inline=1)
+cont = plt.tricontour(X, Y, conn, Z2, Z2levels, colors='red')
+plt.clabel(cont, fmt=z2label, fontsize=9, inline=1)
 plt.savefig('plots/basic_plot_DP.png')
 
 '''
