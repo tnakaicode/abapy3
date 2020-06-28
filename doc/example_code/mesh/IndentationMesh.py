@@ -5,7 +5,7 @@ Nb = 3
 
 l, ltot = 1., 2
 mesh = IndentationMesh(Na,Nb,l)
-'''
+
 xe, ye, ze = mesh.get_edges()
 plt.figure()
 plt.gca().set_aspect('equal')
@@ -15,4 +15,4 @@ bbox = mesh.nodes.boundingBox()
 plt.xlim(bbox[0])
 plt.ylim(bbox[1])
 plt.show()
-'''
+

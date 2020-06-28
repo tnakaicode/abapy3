@@ -17,9 +17,9 @@ if __name__ == '__main__':
     if out == "# On branch gh-pages":
       os.system('cp -R _build/html/* ../')
     else: 
-      print "Commit before compiling doc"
+      print ("Commit before compiling doc")
   else:
-    print "Commit before compiling doc"
+    print ("Commit before compiling doc")
           
   
   
