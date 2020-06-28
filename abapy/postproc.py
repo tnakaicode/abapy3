@@ -4,8 +4,6 @@ Post Processing
 '''
 
 
-
-
 def GetMesh(odb,instance,dti='I'):
   '''Retrieves mesh on an instance in an Abaqus Output Database. 
   
@@ -54,11 +52,6 @@ def GetMesh(odb,instance,dti='I'):
     es = [element.label for element in eset]
     mesh.add_set(esk,es)
   return mesh
-
-
-
-
-
 
 
 class HistoryOutput(object):
@@ -607,11 +600,6 @@ def GetHistoryOutputByKey(odb,key):
 def GetFieldOutput(odb, step, frame, instance, position, field, subField=None, labels=None,dti='I'):
   '''
   Retrieves a field output in an Abaqus odb object and stores it in a FieldOutput class instance. Field output that are classically available at integration points must be interpolated at nodes. This can be requested in the Abaqus *inp* file using: *Element Output, position = nodes*.
-  
-  
-  
-  
-  
   
   :param odb: odb object produced by odbAccess.openOdb in abaqus python or abaqus viewer -noGUI
   :type odb: odb object.
