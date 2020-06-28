@@ -11,7 +11,8 @@
 # All configuration values have a default; values that are commented out
 # serve to show the default.
 
-import sys, os
+import sys
+import os
 
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
@@ -27,22 +28,22 @@ sys.path.append(os.path.abspath('sphinxext'))
 
 # Add any Sphinx extension module names here, as strings. They can be extensions
 # coming with Sphinx (named 'sphinx.ext.*') or your custom ones.
-extensions = ['sphinx.ext.autodoc', 
-'sphinx.ext.doctest', 
-'sphinx.ext.todo', 
-'sphinx.ext.pngmath', 
-#'sphinx.ext.mathjax',
-'sphinx.ext.viewcode',
-'sphinx.ext.doctest',
-'matplotlib.sphinxext.mathmpl',
-'matplotlib.sphinxext.only_directives',
-'matplotlib.sphinxext.plot_directive',
-'ipython_directive',
-'sphinx.ext.autodoc',
-'sphinx.ext.doctest',
-'ipython_console_highlighting',
+extensions = ['sphinx.ext.autodoc',
+              'sphinx.ext.doctest',
+              'sphinx.ext.todo',
+              'sphinx.ext.pngmath',
+              # 'sphinx.ext.mathjax',
+              'sphinx.ext.viewcode',
+              'sphinx.ext.doctest',
+              'matplotlib.sphinxext.mathmpl',
+              'matplotlib.sphinxext.only_directives',
+              'matplotlib.sphinxext.plot_directive',
+              'ipython_directive',
+              'sphinx.ext.autodoc',
+              'sphinx.ext.doctest',
+              'ipython_console_highlighting',
 
-'numpydoc']
+              'numpydoc']
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
@@ -198,8 +199,8 @@ html_show_sourcelink = True
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title, author, documentclass [howto/manual]).
 latex_documents = [
-  ('index', 'abapy.tex', u'abapy Documentation',
-   u'Ludovic Charleux', 'manual'),
+    ('index', 'abapy.tex', u'abapy Documentation',
+     u'Ludovic Charleux', 'manual'),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of

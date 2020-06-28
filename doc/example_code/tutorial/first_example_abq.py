@@ -18,14 +18,13 @@ ref_node_label = odb.rootAssembly.instances['I_INDENTER'].nodeSets['REF_NODE'].n
 
 # Getting back the reaction forces along Y (RF2) and displacements along Y (U2) where they are recorded.
 RF2 = gho(odb, 'RF2')
-U2  = gho(odb, 'U2')
+U2 = gho(odb, 'U2')
 
 # Packing data
-data = {'ref_node_label': ref_node_label, 'RF2':RF2, 'U2':U2}
+data = {'ref_node_label': ref_node_label, 'RF2': RF2, 'U2': U2}
 
 # Dumping data
 dump(data, workdir + '/' + name + '.pckl')
 
 # Closing Odb
 odb.close()
-
