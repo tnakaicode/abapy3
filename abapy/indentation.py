@@ -210,7 +210,7 @@ def IndentationMesh(Na = 8, Nb = 8, Ns = 4, Nf = 2 , l =1., name = 'CAX4', dtf =
     y1 = [radius]
     for i in range(Ns): y1.append(y1[-1] * (k+1))
     y1.reverse()
-    x1 = linspace(0., 1., N+1)
+    x1 = linspace(0., 1., int(N+1))
     mesh = RegularQuadMesh_like(x_list = x1, y_list = y1 , name = name, dtf = dtf, dti = dti )
     mesh.sets= {}
     mesh.nodes.sets={}

@@ -1,4 +1,4 @@
-from abapy.mesh import IndentationMesh
+from abapy.indentation import IndentationMesh
 from matplotlib import pyplot as plt
 Na = 2
 Nb = 3

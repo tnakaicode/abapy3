@@ -2698,7 +2698,7 @@ class TensorFieldOutput:
     
     :rtype: ``TensorFieldOutput`` instance
     '''
-    return (self.trace() / 3.) * Identity_like(self)
+    return (self.trace().__div__(3.0)) * Identity_like(self)
   
   def i1(self):
     '''
@@ -2714,7 +2714,7 @@ class TensorFieldOutput:
     
     :rtype: ``FieldOutput`` instance.
     '''
-    return -self.trace()/3.
+    return -self.trace().__div__(3.0)
    
   def i2(self):
     '''
@@ -2760,7 +2760,7 @@ class TensorFieldOutput:
     
     :rtype: ``FieldOutput`` instance.
     '''
-    return (1.5 * self.j2())**.5
+    return (self.j2().__mul__(1.5)).__pow__(0.5)
     
   def tresca(self):
     '''

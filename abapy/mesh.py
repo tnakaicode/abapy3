@@ -2507,24 +2507,24 @@ def RegularQuadMesh(N1=1, N2=1, l1=1.,l2=1.,name='QUAD4',dtf='f',dti='I'):
   '''
   import numpy as np
   from array import array as array
-  x,y = np.meshgrid(np.linspace(0,l1,N1+1),np.linspace(0,l2,N2+1))
-  X = np.reshape(x,(N1+1)*(N2+1))
-  Y = np.reshape(y,(N1+1)*(N2+1))
+  x,y = np.meshgrid(np.linspace(0,l1,int(N1+1)),np.linspace(0,l2,int(N2+1)))
+  X = np.reshape(x,int(N1+1)*int(N2+1))
+  Y = np.reshape(y,int(N1+1)*int(N2+1))
   Cx,Cy = np.meshgrid(np.arange(1,N1+1),(N1+1)*np.arange(0,N2))
-  C = np.reshape(Cx,N1*N2)+np.reshape(Cy,N1*N2) 
+  C = np.reshape(Cx,int(N1*N2))+np.reshape(Cy,int(N1*N2)) 
   mesh = Mesh(nodes = Nodes(dtf=dtf,dti=dti))
   nodes = mesh.nodes
   for i in range(len(X)): nodes.add_node(None,X[i],Y[i],0.)
   for i in range(len(C)): 
-    mesh.add_element(connectivity = (C[i],C[i]+1,C[i]+N1+2,C[i]+N1+1), space = 2, name = name)
+    mesh.add_element(connectivity = (int(C[i]),int(C[i]+1),int(C[i]+N1+2),int(C[i]+N1+1)), space = 2, name = name)
   nodes.add_set('bottomleft', 1)
-  nodes.add_set('bottomright', N1+1)
-  nodes.add_set('topleft', (N1+1)*N2+1)
-  nodes.add_set('topright',(N1+1)*(N2+1))
-  nodes.add_set('bottom', range(1,N1+2))
-  nodes.add_set('top', range((N1+1)*N2+1, (N1+1)*(N2+1)+1))
-  nodes.add_set('left', range(1,(N1+1)*N2+2,N1+1))
-  nodes.add_set('right', range(N1+1,(N1+1)*(N2+1)+1,N1+1))
+  nodes.add_set('bottomright', int(N1+1))
+  nodes.add_set('topleft', int((N1+1)*N2+1))
+  nodes.add_set('topright',int((N1+1)*(N2+1)))
+  nodes.add_set('bottom', range(1,int(N1+2)))
+  nodes.add_set('top', range(int((N1+1)*N2+1), int((N1+1)*(N2+1)+1)))
+  nodes.add_set('left', range(1,int((N1+1)*N2+2),int(N1+1)))
+  nodes.add_set('right', range(int(N1+1),int((N1+1)*(N2+1)+1),int(N1+1)))
   return mesh
 
 def UnitTransition(name='CAX4', l1 = 1., l2 =1.):

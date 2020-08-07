@@ -1,7 +1,6 @@
 from abapy.misc import load
 from matplotlib import pyplot as plt
 import matplotlib.gridspec as gridspec
-from matplotlib import mpl
 import numpy as np
 
 path_to_odb = '../../../../testing/'

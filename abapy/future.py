@@ -1,3 +1,4 @@
+from typing import OrderedDict
 import numpy as np
 import copy
 import math
@@ -413,10 +414,10 @@ class Hexa8(Element):
 class Mesh(object):
     def __init__(self, nodes={}, elements={}):
         self.nodes = MasterDict(self)
-        for k, v in nodes.iteritems():
+        for k, v in nodes.items():
             self.nodes[k] = v
         self.elements = MasterDict(self)
-        for k, v in elements.iteritems():
+        for k, v in elements.items():
             self.elements[k] = v
 
     def __repr__(self):
@@ -464,14 +465,14 @@ class Mesh(object):
         newmesh = Mesh()
         # Nodes:
         node_offset = max(self.nodes.keys())
-        for l, n in self.nodes.iteritems():
+        for l, n in self.nodes.items():
             for j in range(layers + 1):
                 newnode = Node(coords=n.coords + translation * float(j) / layers,
                                sets=n.sets)
                 newmesh.nodes[l + j * node_offset] = newnode
         # Elements:
         element_offset = max(self.elements.keys())
-        for l, e in self.elements.iteritems():
+        for l, e in self.elements.items():
             for layer in range(layers):
                 newelement = e.extrude(offset=node_offset, layer=layer)
                 if newelement != None:
@@ -532,9 +533,9 @@ class Mesh(object):
             for i in range(len(conn)):
                 conn[i] = mapping[conn[i]]
 
-        for label in newmesh.nodes.keys():
-            if mapping[label] != label:
-                del newmesh.nodes[label]
+        for k, v in list(newmesh.nodes.items()):
+            if mapping[k] != k:
+                del newmesh.nodes[k]
         return newmesh
 
     def simplex_decomposition(self):
@@ -678,7 +679,7 @@ def writeInp(mesh, mapping, path=None):
 
     def exportset(s, d):
         out = ""
-        labels = [str(k) for k, v in d.iteritems() if s in v.sets]
+        labels = [str(k) for k, v in d.items() if s in v.sets]
         for i in range(len(labels)):
             out += labels[i]
             if (i + 1) % 10 != 0:
@@ -691,14 +692,14 @@ def writeInp(mesh, mapping, path=None):
 
     # Nodes
     out = "*NODE\n"
-    for label, node in mesh.nodes.iteritems():
+    for label, node in mesh.nodes.items():
         out += "{0}, {1}\n".format(label,
                                    ", ".join([str(c) for c in node.coords]))
     # Elements
     etypes = set([e.type() for e in mesh.elements.values()])
     for etype in etypes:
         out += "*ELEMENT, TYPE={0}\n".format(mapping[etype])
-        for label, elem in mesh.elements.iteritems():
+        for label, elem in mesh.elements.items():
             if elem.type() == etype:
                 out += "{0}, {1}\n".format(label,
                                            ", ".join([str(c) for c in elem.conn]))

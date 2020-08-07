@@ -21,7 +21,7 @@ m.elements[4] = Tri3(conn=(3, 5, 4))
 m.elements[5] = Tri3(conn=(6, 7, 10))
 m.elements[6] = Quad4(conn=(5, 6, 10, 9))
 
-for k, v in m.elements.iteritems():
+for k, v in m.elements.items():
     print(k, v.volume())
 
 
@@ -37,7 +37,7 @@ def transformation(x, y, z):
 m = m.extrude(translation=[0, 0, 1], layers=1)
 m = m.transform(transformation)
 
-for k, v in m.elements.iteritems():
+for k, v in m.elements.items():
     print(k, v.volume())
 
 writeMsh(m, "volume.msh")

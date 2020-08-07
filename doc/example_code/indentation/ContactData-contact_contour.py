@@ -3,7 +3,8 @@ import numpy as np
 from matplotlib import pyplot as plt
 
 
-# In this case, a 3D FEM simulation has beed performed and the results are stored in the file ``ContactData_berk.pckl``. See ``Get_ContactData`` to understand how this data has been extracted from an Abaqus odb file.
+# In this case, a 3D FEM simulation has beed performed and the results are stored in the file ``ContactData_berk.pckl``.
+# See ``Get_ContactData`` to understand how this data has been extracted from an Abaqus odb file.
 
 
 out = load('ContactData_berk.pckl')

@@ -37,16 +37,13 @@ m = m.transform(transformation)
 mapping = m.overlapping_nodes()
 m = m.merge_nodes(mapping)
 m2 = m.copy()
-"""
-m2.elements.clear()
+#m2.elements.clear()
 counter = 1
-for label in m.elements.keys():
-  el = m.elements[label]
+for label, el in m.elements.items():
   simplices = el.simplex_decomposition()
   for simplex in simplices:
-    m2.elements[cunter] = simplex
+    m2.elements[counter] = simplex
     counter +=1
-"""
 m2 = m2.clean_connectivity()
 
 
