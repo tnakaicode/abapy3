@@ -7,7 +7,7 @@ setup(name='abapy',
       author='Ludovic Charleux, Vincent Keryvin',
       author_email='ludovic.charleux@univ-savoie.fr',
       license='GPL v2',
-      packages=['abapy'],
+      packages=['abapy', 'abapy/spym'],
       zip_safe=False,
       install_requires=[
           "numpy",
