@@ -1,5 +1,8 @@
 from setuptools import setup
 
+# Original Code
+# https://github.com/lcharleux/abapy.git
+
 setup(name='abapy',
       version='0.1',
       description="Finite element pre/post processing using Python",
