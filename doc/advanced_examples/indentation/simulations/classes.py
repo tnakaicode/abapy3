@@ -612,7 +612,7 @@ dump(data, file_name+'.pckl')"""
         if update:
             self.tip_penetration = tip_pen
         else:
-            return tip_penetration
+            return self.tip_penetration
 
     def __repr__(self):
         return '<Simulation: id={0}>'.format(self.id)

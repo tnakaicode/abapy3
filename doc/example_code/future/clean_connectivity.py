@@ -37,16 +37,16 @@ m = m.transform(transformation)
 mapping = m.overlapping_nodes()
 m = m.merge_nodes(mapping)
 m2 = m.copy()
-#m2.elements.clear()
+# m2.elements.clear()
 counter = 1
 for label, el in m.elements.items():
-  simplices = el.simplex_decomposition()
-  for simplex in simplices:
-    m2.elements[counter] = simplex
-    counter +=1
+    simplices = el.simplex_decomposition()
+    for simplex in simplices:
+        m2.elements[counter] = simplex
+        counter += 1
 m2 = m2.clean_connectivity()
 
 
-writeInp(m2, path="clean_connectivity.inp", mapping={
-         "Tri3": "CAX3", "Quad4": "CAX4", "Hexa8": "C3D8", "Prism6": "C3D6", "Tetra4": "C3D4"})
+writeInp(m2, path="clean_connectivity.inp",
+         mapping={"Tri3": "CAX3", "Quad4": "CAX4", "Hexa8": "C3D8", "Prism6": "C3D6", "Tetra4": "C3D4"})
 writeMsh(m2, path="clean_connectivity.msh")

@@ -8,18 +8,18 @@ import copyreg
 import array
 
 
-# def array_unpickler(data):
-#    x = array.array(data[0])
-#    #x.fromstring(data[1:].encode())
-#    x.frombytes(data[1:].encode('utf-8'))
-#    return x
-#
-#
-# def array_pickler(arr):
-#    return array_unpickler, ("%s%s" % (arr.typecode, arr.tostring()),)
-#
-#
-#copyreg.pickle(array.ArrayType, array_pickler, array_unpickler)
+def array_unpickler(data):
+    x = array.array(data[0])
+    # x.fromstring(data[1:].encode())
+    x.frombytes(data[1:].encode('utf-8'))
+    return x
+
+
+def array_pickler(arr):
+    return array_unpickler, ("%s%s" % (arr.typecode, arr.tostring()),)
+
+
+copyreg.pickle(array.ArrayType, array_pickler, array_unpickler)
 
 
 def load(name):
