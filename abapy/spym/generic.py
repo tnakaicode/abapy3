@@ -1,6 +1,7 @@
 import numpy as np
 from scipy import optimize, interpolate, ndimage
 import copy
+import io
 # from StringIO import StringIO   # StringIO behaves like a file object
 import struct
 
@@ -73,7 +74,7 @@ class Spm_image(object):
                           'N', 'mN', 'uN', 'nN', 'Pa', 'kPa', 'Mpa']
         if z_unit not in accepted_units:
             raise Exception('z_unit must be in {0}, got {1} instead'.format(
-                accepted_units, xy_unit))
+                accepted_units, z_unit))
         self.z_unit = z_unit
 
     def set_lx(self, lx):
@@ -187,7 +188,7 @@ class Spm_image(object):
         xy_unit = width_data.split()[1].replace('\xc2\xb5', 'u')
         ly = float(f.readline().split(':')[1].split()[0])
         z_unit = f.readline().split(':')[1].split()[0].replace('\xc2\xb5', 'u')
-        data = np.loadtxt(StringIO(f.read()))
+        data = np.loadtxt(io.StringIO(f.read()))
         f.close()
         self.set_channel(channel)
         self.set_lx(lx)
