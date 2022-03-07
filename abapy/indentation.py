@@ -1194,7 +1194,7 @@ class Step(object):
     :param name: step name.
     :type name: string
     '''
-    if type(name) is not str: raise Exception('name must be str, got {0}'.format(type(anme)))
+    if type(name) is not str: raise Exception('name must be str, got {0}'.format(type(name)))
     self.name = name
   def set_displacement(self,disp):
     '''
@@ -1284,10 +1284,10 @@ class Step(object):
     :type elemOutput: string or list of strings
     '''
     if type(elemOutput) is str:
-      self.elemFieldOutput = [nodeOutput]
+      self.elemFieldOutput = [elemOutput]
     else:
       for eo in elemOutput:
-        if type(eo) is not str: raise Exception('element outputs must be strings, got {0}'.format(type(no)))
+        if type(eo) is not str: raise Exception('element outputs must be strings, got {0}'.format(type(eo)))
       self.elemFieldOutput = elemOutput
   def dump2inp(self):
     '''
@@ -2411,6 +2411,7 @@ class Hanson(object):
     from math import pi, tan, radians
     self.a = 2. / pi * tan(radians(self.half_angle)) * h
   def get_h(self):
+    from math import pi, tan, radians
     return pi * self.a / ( tan(radians(self.half_angle)) * 2.)    
   h = property(get_h, set_h)
   

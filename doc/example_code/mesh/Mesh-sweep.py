@@ -22,10 +22,20 @@ for i in range(len(x2)):
 
 # Plotting stuff
 plt.figure()
-plt.clf()
 plt.gca().set_aspect('equal')
 plt.axis('off')
 plt.plot(x, y, 'b-', linewidth=4., label='Orginal Mesh')
 plt.plot(x2, y2, 'r-', linewidth=1., label='Sweeped mesh')
+plt.legend()
+
+fig = plt.figure()
+axs = fig.add_subplot(111, projection='3d')
+axs.set_xlabel('x')
+axs.set_ylabel('y')
+axs.set_zlabel('z')
+axs.xaxis.grid()
+axs.yaxis.grid()
+axs.zaxis.grid()
+plt.plot(x, y, z, 'b-', linewidth=4., label='Orginal Mesh')
 plt.legend()
 plt.show()

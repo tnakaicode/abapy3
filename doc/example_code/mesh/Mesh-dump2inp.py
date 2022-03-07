@@ -16,4 +16,4 @@ mesh.add_element(label=2, connectivity=(2, 5, 6, 3), space=2, name='QUAD4')
 mesh.add_set(label='veryNiceSet', elements=[1, 2])
 # Adding surfaces
 mesh.add_surface(label='superNiceSurface', description=[('veryNiceSet', 2)])
-out = mesh.dump2inp()
+out = mesh.dump2inp("Mesh-dump2inp.inp")
