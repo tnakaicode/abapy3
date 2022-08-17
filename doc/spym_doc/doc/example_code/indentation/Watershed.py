@@ -1,5 +1,5 @@
-from spym.generic import Spm_image, load_from_gsf
-from spym.indentation import Watershed
+from abapy.spym.generic import Spm_image, load_from_gsf
+from abapy.spym.indentation import Watershed
 import matplotlib.pyplot as plt
 from matplotlib import cm
 import numpy as np

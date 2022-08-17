@@ -1,5 +1,5 @@
-from spym.generic import Spm_image
-from spym.indentation import Indenter_orientation, Pyramidal_indenter
+from abapy.spym.generic import Spm_image
+from abapy.spym.indentation import Indenter_orientation, Pyramidal_indenter
 import matplotlib.pyplot as plt
 import numpy as np
 
@@ -19,7 +19,7 @@ R2 = X0**2 + Y0**2
 r = min( X0.max(), -X0.min(),  Y0.max(), -Y0.min())
 k = .9
 mask = np.where(R2 > r**2 * k**2, 1., np.nan )
-image, trash = image.plane_fit(mask = mask)
+#image, trash = image.plane_fit(mask = mask)
 image, trash = image.line_fit(mask = mask)
 #image = image.crop(cx0 = 50, cx1= 50, cy0 = 50, cy1= 50)
 X, Y, Z = image.get_xyz()

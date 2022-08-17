@@ -1,4 +1,4 @@
-from spym.generic import Spm_image, load_from_gsf
+from abapy.spym.generic import load_from_gsf
 import matplotlib.pyplot as plt
 import numpy as np
 import scipy.ndimage as nd

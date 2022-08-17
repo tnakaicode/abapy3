@@ -1,4 +1,4 @@
-from spym.generic import load_from_gsf
+from abapy.spym.generic import load_from_gsf
 import matplotlib.pyplot as plt
 
 file_name = 'WG-air_10mN_001_TF.gsf'
@@ -8,15 +8,15 @@ im.change_z_unit('nm')
 
 plt.figure()
 plt.clf()
-X,Y,Z = im.get_xyz()
+X, Y, Z = im.get_xyz()
 xlabel, ylabel, zlabel = im.get_labels()
 plt.xlabel(xlabel)
 plt.ylabel(ylabel)
-grad = plt.contourf(X,Y,Z, 100)
+grad = plt.contourf(X, Y, Z, 100)
 cbar = plt.colorbar(grad)
 cbar.set_label(zlabel)
 plt.xlabel(xlabel)
 plt.ylabel(ylabel)
 plt.gca().set_aspect('equal')
 plt.grid()
-plt.show()    
+plt.show()

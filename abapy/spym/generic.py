@@ -58,9 +58,9 @@ class Spm_image(object):
         :param xy_unit: x/y unit taken in ['m', 'cm', 'mm', 'um', 'nm']
         :type xy_unit: string
         '''
-        if xy_unit not in ['m', 'cm', 'mm', 'um', 'nm']:
+        if xy_unit not in ['m', 'cm', 'mm', 'um', 'nm', 'µm']:
             raise Exception(
-                'xy_unit must be in ["m", "cm", "mm", "um", "nm"], got {0} instead'.format(xy_unit))
+                'xy_unit must be in ["m", "cm", "mm", "um", "nm", "µm"], got {0} instead'.format(xy_unit))
         self.xy_unit = xy_unit
 
     def set_z_unit(self, z_unit):
@@ -181,6 +181,11 @@ class Spm_image(object):
       if line[0] == '#': 
         f.seek(pos)
     '''
+
+        # Channel: Topography 9.0
+        # Width: 6.00 µm
+        # Height: 6.00 µm
+        # Value units: m
 
         channel = f.readline().split(':')[1].split()[0].lower()
         width_data = f.readline().split(':')[1]
@@ -813,7 +818,7 @@ def load_from_gsf(file_name):
     known_fields = ['XRes', 'YRes', 'XReal', 'YReal',
                     'XOffset', 'YOffset', 'Title', 'XYUnits', 'ZUnits']
     for j in range(i):
-        line = lines[j]
+        line = lines[j].decode(encoding="ascii")
         words = line.split('=')
         field = words[0].replace(' ', '')
         value = words[1]

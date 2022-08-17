@@ -1,5 +1,5 @@
-from spym.generic import Spm_image
-from spym.scratch import Measure
+from abapy.spym.generic import Spm_image
+from abapy.spym.scratch import Measure
 import matplotlib.pyplot as plt
 import numpy as np
 import matplotlib.cm as cm

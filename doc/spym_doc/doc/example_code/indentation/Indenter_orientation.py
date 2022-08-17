@@ -1,5 +1,5 @@
-from spym.generic import Spm_image
-from spym.indentation import Indenter_orientation
+from abapy.spym.generic import Spm_image
+from abapy.spym.indentation import Indenter_orientation
 import matplotlib.pyplot as plt
 import numpy as np
 

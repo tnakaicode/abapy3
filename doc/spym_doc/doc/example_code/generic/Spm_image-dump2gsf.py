@@ -1,4 +1,4 @@
-from spym.generic import load_from_gsf
+from abapy.spym.generic import load_from_gsf
 import numpy as np
 
 

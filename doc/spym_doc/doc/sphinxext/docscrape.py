@@ -6,7 +6,6 @@ import inspect
 import textwrap
 import re
 import pydoc
-from StringIO import StringIO
 from warnings import warn
 4
 class Reader(object):
@@ -413,10 +412,10 @@ class FunctionDoc(NumpyDocString):
             doc = inspect.getdoc(func) or ''
         try:
             NumpyDocString.__init__(self, doc)
-        except ValueError, e:
-            print '*'*78
-            print "ERROR: '%s' while parsing `%s`" % (e, self._f)
-            print '*'*78
+        except ValueError as e:
+            print ('*'*78)
+            print ("ERROR: '%s' while parsing `%s`" % (e, self._f))
+            print ('*'*78)
             #print "Docstring follows:"
             #print doclines
             #print '='*78
@@ -429,7 +428,7 @@ class FunctionDoc(NumpyDocString):
                 argspec = inspect.formatargspec(*argspec)
                 argspec = argspec.replace('*','\*')
                 signature = '%s%s' % (func_name, argspec)
-            except TypeError, e:
+            except TypeError as e:
                 signature = '%s()' % func_name
             self['Signature'] = signature
 
@@ -452,7 +451,7 @@ class FunctionDoc(NumpyDocString):
 
         if self._role:
             if not roles.has_key(self._role):
-                print "Warning: invalid role %s" % self._role
+                print ("Warning: invalid role %s" % self._role)
             out += '.. %s:: %s\n    \n\n' % (roles.get(self._role,''),
                                              func_name)
 

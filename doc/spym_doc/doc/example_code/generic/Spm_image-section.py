@@ -1,7 +1,7 @@
-from spym.generic import Spm_image, load_from_gsf
+from abapy.spym.generic import load_from_gsf
 import matplotlib.pyplot as plt
 import numpy as np
-from spym.indentation import Indenter_orientation
+from abapy.spym.indentation import Indenter_orientation
 
 file_name = 'wg_berk-0deg_n2_6um_000_TR.gsf'
 #file_name = 'BMG8-zr60cu30al10_375c_10mN_6um_000_TR.gsf'

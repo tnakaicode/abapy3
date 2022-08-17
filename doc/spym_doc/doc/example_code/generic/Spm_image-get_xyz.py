@@ -1,4 +1,4 @@
-from spym.generic import Spm_image, load_from_gsf
+from abapy.spym.generic import load_from_gsf
 import matplotlib.pyplot as plt
 
 #file_name = 'wg_berk-0deg_n2_6um_000_TR.gsf'
